@@ -24,12 +24,20 @@ execute:
 ```{r}
 #| label: wd-1-csv
 
+surveys <- read_csv(here("data", "surveys.csv"))
+
+# This code is from lab 2, question 1
+
 ```
 
 -   `xlsx`
 
 ```{r}
 #| label: wd-1-xlsx
+
+agesxl <- read_xlsx(path = here::here("check-ins", "2.1-loading-data", "Ages_Data", "ages.xlsx"), sheet = "ages")
+
+# This code is from Check-in 2.3
 
 ```
 
@@ -38,12 +46,37 @@ execute:
 ```{r}
 #| label: wd-1-txt
 
+ages_tab <- read_table(file = here::here("Week 2", "Check-ins", "Ages_Data", "ages_tab.txt"))
+
+
+# This code is from Check-in 2.3
+
+
 ```
 
 **WD-2: I can select necessary columns from a dataset.**
 
 ```{r}
 #| label: wd-2
+
+teacher_evals_clean <- teacher_evals |> 
+  rename(sex = gender) |> 
+  filter(no_participants > 10) |> 
+  mutate(teacher_id  = as.character(teacher_id)) |>
+  select(course_id, 
+         teacher_id, 
+         question_no, 
+         no_participants, 
+         resp_share, 
+         SET_score_avg, 
+         percent_failed_cur, 
+         academic_degree, 
+         seniority, 
+         sex
+        )
+
+# This code is from lab 3, question 5
+
 
 ```
 
@@ -54,12 +87,39 @@ execute:
 ```{r}
 #| label: wd-3-numeric
 
+teacher_evals_clean <- teacher_evals |> 
+  rename(sex = gender) |> 
+  filter(no_participants > 10) |> 
+  mutate(teacher_id  = as.character(teacher_id)) |>
+  select(course_id, 
+         teacher_id, 
+         question_no, 
+         no_participants, 
+         resp_share, 
+         SET_score_avg, 
+         percent_failed_cur, 
+         academic_degree, 
+         seniority, 
+         sex
+        )
+
+# This code is from lab 3, question 5
+
+
 ```
 
 -   character -- specifically a string (example must use functions from **stringr**)
 
 ```{r}
 #| label: wd-3-string
+
+ca_childcare <- counties |> 
+  filter(state_abbreviation == "CA") |>
+  right_join(childcare_costs,
+             by = "county_fips_code"
+             )
+
+# This code is from lab 4, question 2 
 
 ```
 
@@ -68,12 +128,29 @@ execute:
 ```{r}
 #| label: wd-3-factor
 
+ca_childcare <- counties |> 
+  filter(state_abbreviation == "CA") |>
+  right_join(childcare_costs,
+             by = "county_fips_code"
+             )
+
+# This code is from lab 4, question 2
+
 ```
 
 -   date (example must use functions from **lubridate**)
 
 ```{r}
 #| label: wd-3-date
+
+crime_scene_report |> 
+  mutate(date = ymd(date)) |> 
+  filter(date == ymd("2018-01-15"), 
+         type == "murder",
+         city == "SQL City"
+         ) 
+
+# This code is from lab 5, section 1: Crime Scene Report
 
 ```
 
@@ -84,12 +161,39 @@ execute:
 ```{r}
 #| label: wd-4-numeric
 
+teacher_evals |> 
+  filter(question_no == 903) |> 
+  mutate(SET_level = if_else(SET_score_avg >= 4,
+                             "excellent",
+                             "standard"
+                             ), 
+         sen_level = if_else(seniority <= 4,
+                              "junior",
+                              "senior"
+                              )
+          
+         ) |>
+  select(course_id, 
+         SET_level, 
+         sen_level
+         )
+
+# This code is from challenge 3, question 1
+
 ```
 
 -   character -- specifically a string (example must use functions from **stringr**)
 
 ```{r}
 #| label: wd-4-string
+
+person |> 
+  mutate(is_annabel = str_detect(name, "^Annabel")) |>
+  filter(address_street_name == "Franklin Ave",
+         is_annabel
+          )
+      
+# This code is from lab 5, section 3: Finding Witness 2. I changed the way I identified rows with names that start with Annabel by using the mutate() function to create a new column which detects strings beginning with Annabel. Then, I filtered for rows that contained a string beginning with Annabel and rows of individuals who live on Franklin Ave. 
 
 ```
 
@@ -98,12 +202,93 @@ execute:
 ```{r}
 #| label: wd-4-factor
 
+ca_childcare <- ca_childcare |> 
+ mutate(county_name = str_remove(county_name, " County")) |>
+  mutate(region = fct_collapse(county_name,
+                               "Superior California" = c("Butte",
+                                                         "Colusa",
+                                                         "El Dorado",
+                                                         "Glenn", 
+                                                         "Lassen", 
+                                                         "Modoc",
+                                                         "Nevada",
+                                                         "Placer", 
+                                                         "Plumas", 
+                                                         "Sacramento", 
+                                                         "Shasta", 
+                                                         "Sierra", 
+                                                         "Siskiyou",
+                                                         "Sutter", 
+                                                         "Tehama", 
+                                                         "Yolo",
+                                                         "Yuba"
+                                                         ),
+                               "North Coast" = c("Del Norte",
+                                                 "Humboldt",
+                                                 "Lake",
+                                                 "Mendocino", 
+                                                 "Napa", "Sonoma", 
+                                                 "Trinity"
+                                                 ),
+                               "San Francisco Bay Area" = c("Alameda", 
+                                                            "Contra Costa", 
+                                                            "Marin", 
+                                                            "San Francisco", 
+                                                            "San Mateo", 
+                                                            "Santa Clara",
+                                                            "Solano"
+                                                            ),
+                               "Northern San Joaquin Valley" = c("Alpine", 
+                                                                 "Amador", 
+                                                                 "Calaveras",
+                                                                 "Madera",
+                                                                 "Mariposa",
+                                                                 "Merced", 
+                                                                 "Mono", 
+                                                                 "San Joaquin", "Stanislaus", 
+                                                                 "Tuolumne"
+                                                                ),
+                               "Central Coast" = c("Monterey",
+                                                   "San Benito",
+                                                   "San Luis Obispo",
+                                                   "Santa Barbara",
+                                                   "Santa Cruz",
+                                                   "Ventura"
+                                                   ),
+                               "Southern San Joaquin Valley" = c("Fresno",
+                                                                 "Inyo",
+                                                                 "Kern",
+                                                                 "Kings",
+                                                                 "Tulare"
+                                                                 ),
+                               "Inland Empire" = c("Riverside",
+                                                   "San Bernardino"
+                                                         ),
+                               "Los Angeles County" = c("Los Angeles"),
+                               "Orange County" = c("Orange"),
+                               "San Diego - Imperial" = c("San Diego",
+                                                    "Imperial"
+                                                    )
+                               )
+         ) 
+
+# This code is from lab 4, question 3
+
 ```
 
 -   date (example must use functions from **lubridate**)
 
 ```{r}
 #| label: wd-4-date
+
+crime_scene_report |> 
+  mutate(date = ymd(date)) |> 
+  filter(date == ymd("2018-01-15"), 
+         type == "murder",
+         city == "SQL City"
+         )
+
+# This code is from lab 5, section 1: Crime Scene Report 
 
 ```
 
@@ -114,12 +299,47 @@ execute:
 ```{r}
 #| label: wd-5-left
 
+get_fit_now_member |> 
+  filter(membership_status == "gold",
+         str_detect(id,
+                   "48Z"
+                   )
+         ) |>
+  left_join(get_fit_now_check_in,
+             by = c("id" = "membership_id"
+                     )
+              ) |>
+  mutate(check_in_date = ymd(check_in_date)) |>
+  filter(check_in_date == ymd("2018-01-09")) |>  
+  left_join(person, 
+            by = c("person_id" = "id"
+                   ) 
+         ) |> 
+  left_join(drivers_license,
+            by = c("license_id" = "id"
+                   )
+            ) |>
+  filter(str_detect(plate_number,
+                      "H42W"
+                  )
+          )
+
+# This code is from lab 5, section 5: Using Witness's Clues
+
 ```
 
 -   `right_join()`
 
 ```{r}
 #| label: wd-5-right
+
+ca_childcare <- counties |> 
+  filter(state_abbreviation == "CA") |>
+  right_join(childcare_costs,
+             by = "county_fips_code"
+             )
+
+# This code is from lab 4, question 2
 
 ```
 
@@ -128,12 +348,42 @@ execute:
 ```{r}
 #| label: wd-5-inner
 
+get_fit_now_member |> 
+  filter(membership_status == "gold",
+         str_detect(id,
+                   "48Z"
+                   )
+         ) |>
+  left_join(get_fit_now_check_in,
+             by = c("id" = "membership_id"
+                     )
+              ) |>
+  mutate(check_in_date = ymd(check_in_date)) |>
+  filter(check_in_date == ymd("2018-01-09")) |>  
+  left_join(person, 
+            by = c("person_id" = "id"
+                   ) 
+         ) |> 
+  left_join(drivers_license,
+            by = c("license_id" = "id"
+                   )
+            ) |>
+  filter(str_detect(plate_number,
+                      "H42W"
+                  )
+          )
+
+
+# This code is from lab 5, section 5: Using Witness's Clues
+
 ```
 
 -   `full_join()`
 
 ```{r}
 #| label: wd-5-full
+
+# Have not done in a lab or challenge yet! 
 
 ```
 
@@ -144,12 +394,42 @@ execute:
 ```{r}
 #| label: wd-6-semi
 
+
+
 ```
 
 -   `anti_join()`
 
 ```{r}
 #| label: wd-6-anti
+
+
+
+degrees_not <- tibble(academic_degree = c("no_dgr", "ma"))
+
+teacher_evals_clean |> 
+  anti_join(degrees_not,
+            by = "academic_degree"
+            ) |>
+  filter(sex == "female") |>
+  group_by(teacher_id) |>
+  summarise(average_response = mean(resp_share,
+                                    na.rm = TRUE
+                                    ),
+            .groups = 'drop'
+            ) |>
+  mutate(max_values = max(average_response),
+         min_values = min(average_response)
+         ) |> 
+    filter(average_response == max_values | average_response == min_values) |> 
+    arrange(average_response) |>
+    select(teacher_id, 
+           average_response
+           ) |>
+  print()
+
+# This code is from lab 3, question 12. I originally used the filter() function in my original code to filter to include specific academic degrees. To utilize the anti_join() function, I created a tibble which included the two academic degrees that I did not want to have in my average responses. Then, I used the anti_join to join the teacher_evals_clean data set with the degrees_not data set to filter to only include academic degrees that do not have matches in the degrees_not data set. 
+
 
 ```
 
@@ -160,12 +440,52 @@ execute:
 ```{r}
 #| label: wd-7-long
 
+ca_childcare |>
+  select(study_year,
+         mc_infant,
+         mc_toddler,
+         mc_preschool,
+         region
+         ) |>
+  pivot_longer(cols = starts_with("mc_"), 
+               names_to = "age", 
+               values_to = "median_income"
+               ) |> 
+ mutate(fct_relevel = age, "mc_infant",
+                          "mc_toddler",
+                          "mc_preschool") |> 
+  drop_na()
+
+
+# This code is from lab 4, question 6
+
 ```
 
 -   `pivot_wider()`
 
 ```{r}
 #| label: wd-7-wide
+
+mhi_region <- ca_childcare |> 
+  select(region, 
+         study_year, 
+         mhi_2018 
+         ) |> 
+  filter(study_year %in% c(2008, 
+                           2018
+                           )
+         ) |> 
+  group_by(region, study_year) |>
+  summarize(median_household_income = median(mhi_2018),
+            .groups = "drop") |>
+  pivot_wider(names_from = study_year,
+              values_from = median_household_income) |> 
+  arrange(desc(`2008`), 
+          desc(`2018`
+              )
+          )
+
+# This codei is from lab 4, question 4
 
 ```
 
@@ -211,6 +531,7 @@ I've done this in the following provided assignments:
 
 ```{r}
 #| label: r-3-function-stops
+#| 
 
 ```
 
