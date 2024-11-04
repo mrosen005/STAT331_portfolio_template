@@ -11,7 +11,7 @@ execute:
   echo: true
 ---
 
-[**My Grade:**]{.underline} I believe my grade equivalent to course work evidenced below to be an A-.
+[**My Grade:**]{.underline} I believe my grade equivalent to course work evidenced below to be an B+.
 
 [**Learning Objective Evidence:**]{.underline} In the code chunks below, provide code from Lab or Challenge assignments where you believe you have demonstrated proficiency with the specified learning target. Be sure to specify **where** the code came from (e.g., Lab 4 Question 2).
 
@@ -113,13 +113,13 @@ teacher_evals_clean <- teacher_evals |>
 ```{r}
 #| label: wd-3-string
 
-ca_childcare <- counties |> 
-  filter(state_abbreviation == "CA") |>
-  right_join(childcare_costs,
-             by = "county_fips_code"
-             )
-
-# This code is from lab 4, question 2 
+person |> 
+  mutate(is_annabel = str_detect(name, "^Annabel")) |>
+  filter(address_street_name == "Franklin Ave",
+         is_annabel
+          )
+      
+# This code is from lab 5, section 3: Finding Witness 2. I changed the way I identified rows with names that start with Annabel by using the mutate() function to create a new column which detects strings beginning with Annabel. Then, I filtered for rows that contained a string beginning with Annabel and rows of individuals who live on Franklin Ave. 
 
 ```
 
@@ -514,7 +514,7 @@ mhi_region <- ca_childcare |>
 
 I've done this in the following provided assignments:
 
-Using my YAML to incorporate various aspects to my rendered document such as code-folding and embedding resources, I am able to make my rendered quarto documents look professional. Addd
+I have demonstrated this learning target throughout my lab assignments this qarter. Firstly, in the YAML of my quarto documents, I have incorporated various aspects to my rendered document such as code-folding and embedding resources, making my quarto documents look professional. Secondly, I have been conscientious of making my code tidy, adhering to the tidyverse style guidelines, using named arguments and making new lines after commas, plus signs, and pipe operators. I have also been conscientious of making my code efficient, specifically using one function to perform multiple operations. Lastly, I have learned how to use and have implemented the here function into my projects to load in data.
 
 **R-2: I can write well documented and tidy code.**
 
