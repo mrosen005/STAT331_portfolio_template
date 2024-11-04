@@ -324,7 +324,9 @@ get_fit_now_member |>
                   )
           )
 
-# This code is from lab 5, section 5: Using Witness's Clues
+# This code is from lab 5, section 5: Using Witness's Clues. Although I realize this code would be more effective using the inner_join() function, the left_join still works. I do not have other examples from my lab assignments of left_join so am keeping this in here temporarily. 
+
+
 
 ```
 
@@ -354,17 +356,17 @@ get_fit_now_member |>
                    "48Z"
                    )
          ) |>
-  left_join(get_fit_now_check_in,
+  inner_join(get_fit_now_check_in,
              by = c("id" = "membership_id"
                      )
               ) |>
   mutate(check_in_date = ymd(check_in_date)) |>
   filter(check_in_date == ymd("2018-01-09")) |>  
-  left_join(person, 
+  inner_join(person, 
             by = c("person_id" = "id"
                    ) 
          ) |> 
-  left_join(drivers_license,
+  inner_join(drivers_license,
             by = c("license_id" = "id"
                    )
             ) |>
@@ -374,7 +376,7 @@ get_fit_now_member |>
           )
 
 
-# This code is from lab 5, section 5: Using Witness's Clues
+# This code is from lab 5, section 5: Using Witness's Clues. I originally used left_join(), which works, but creates NA's when the second dataset does not have a matching row with nformation. It is more effective for this question to use the inner_join() function so that we only get rows that are in both data sets since I am trying to narrow down these datasets to one row based on the factors included in this code. 
 
 ```
 
@@ -393,6 +395,21 @@ get_fit_now_member |>
 
 ```{r}
 #| label: wd-6-semi
+
+witnesses <- bind_rows(person |> 
+  filter(address_street_name == "Northwestern Dr") |> 
+  slice_max(order_by = address_number,
+            n = 1
+            ), 
+  person |> 
+  filter(address_street_name == "Franklin Ave",
+         (str_detect(name, "Annabel"
+                     )
+          )
+         )
+  )
+
+# This code is from lab 5, section 4: Examining Witness Interviews. Originally, I hard coded the person_id number. To make my code more flexible, I saved the narrowed-down witness results in a data frame. Then, I used the semi_join() function to combine this data frame with the interview data to access the witness's statements. 
 
 
 
@@ -502,6 +519,26 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: r-2-1
 
+ggplot(data = teacher_evals_compare, 
+       mapping = aes(x = sen_level,
+                     fill = SET_level)
+       ) +
+  geom_bar(stat = "count",
+           position = "stack"
+           ) + 
+  scale_fill_manual(values = c("steelblue",
+                               "orange3"
+                               )
+                    ) +
+  theme_bw() +
+  labs(x = "Seniority of Instructor", 
+       y = "", 
+       title = "Number of Sections", 
+       fill = "SET Level"
+       )
+
+# This code is from challenge 3, question 2
+
 ```
 
 -   Example of **dplyr** pipeline
@@ -509,12 +546,35 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: r-2-2
 
+mhi_region <- ca_childcare |> 
+  select(region, 
+         study_year, 
+         mhi_2018 
+         ) |> 
+  filter(study_year %in% c(2008, 
+                           2018
+                           )
+         ) |> 
+  group_by(region, study_year) |>
+  summarize(median_household_income = median(mhi_2018),
+            .groups = "drop") |>
+  pivot_wider(names_from = study_year,
+              values_from = median_household_income) |> 
+  arrange(desc(`2008`), 
+          desc(`2018`
+              )
+          )
+
+# This code is from lab 4, question 4
+
 ```
 
 -   Example of function formatting
 
 ```{r}
 #| label: r-2-3
+
+# Do not have yet! 
 
 ```
 
@@ -525,13 +585,20 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: r-3-example
 
+person |> 
+  filter(address_street_name == "Northwestern Dr") |> 
+  slice_max(order_by = address_number,
+            n = 1
+            )
+
 ```
 
 -   Example of function stops
 
 ```{r}
 #| label: r-3-function-stops
-#| 
+
+# Do not have yet!  
 
 ```
 
@@ -544,12 +611,46 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: dvs-1-num
 
+ggplot(data = surveys, 
+       mapping = aes(x = weight,
+        y = hindfoot_length
+                    )
+       ) +
+  geom_point(alpha = 0.5) +
+  facet_wrap(~species) +
+  labs(x = "Weight of Rodent (in grams)",
+       y = "",
+       title = "Relationship Between Body Weight and Hindfoot
+Length Across Different Rodent Species", 
+      subtitle = "Length of Hindfoot (in mm)"
+       )
+
+# This code is from lab 2, question 4
+
 ```
 
 -   at least one numeric variable and one categorical variable
 
 ```{r}
 #| label: dvs-2-num-cat
+
+
+ggplot(data = surveys, 
+       mapping = aes(x = weight,
+        y = hindfoot_length
+                    )
+       ) +
+  geom_point(alpha = 0.5) +
+  facet_wrap(~species) +
+  labs(x = "Weight of Rodent (in grams)",
+       y = "",
+       title = "Relationship Between Body Weight and Hindfoot
+Length Across Different Rodent Species", 
+      subtitle = "Length of Hindfoot (in mm)"
+       )
+
+# This code is from lab 2, question 4
+
 
 ```
 
@@ -558,12 +659,36 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: dvs-2-cat
 
+ggplot(data = ToothGrowth, 
+       mapping = aes(x = supp,
+                     y = len
+                     )
+       ) +
+  geom_boxplot() +
+  labs(x = "Supplement",
+       y = "Length of Teeth (mm)"
+       )
+ToothGrowth |> 
+  mutate(dose = as.factor(dose)) |> 
+  ggplot(mapping = aes(x = dose,
+                       y = len
+                       )
+         ) +
+  geom_boxplot() +
+  labs(x = "Dose of Supplement (mg/day)",
+       y = "Length of Teeth (mm)"
+       )
+
+# This code is from lab 1, question 6 
+
 ```
 
 -   dates (timeseries plot)
 
 ```{r}
 #| label: dvs-2-date
+
+# Do not have yet!  
 
 ```
 
@@ -574,6 +699,23 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: dvs-2-1
 
+
+ggplot(data = surveys, 
+       mapping = aes(x = weight,
+        y = hindfoot_length
+                    )
+       ) +
+  geom_point(alpha = 0.5) +
+  facet_wrap(~species) +
+  labs(x = "Weight of Rodent (in grams)",
+       y = "",
+       title = "Relationship Between Body Weight and Hindfoot
+Length Across Different Rodent Species", 
+      subtitle = "Length of Hindfoot (in mm)"
+       )
+
+# This code is from lab 2, question 4
+
 ```
 
 -   I can modify the text in my plot to be more readable
@@ -581,12 +723,32 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: dvs-2-2
 
+ggplot(data = surveys, 
+       mapping = aes(x = species, 
+          y = weight
+                    )
+       ) + 
+geom_boxplot(outliers = FALSE) +
+geom_jitter(
+   color = "orange", 
+          alpha = 0.1
+            ) +
+  theme(axis.text.x = element_text(angle = 45)
+        ) +
+labs(x = "Species", 
+     y = "Weight (in grams)", 
+     title = "Weight Distributions Across Rodent Species")
+
+# This code is from lab 2, question 8
+
 ```
 
 -   I can reorder my legend to align with the colors in my plot
 
 ```{r}
 #| label: dvs-2-3
+
+
 
 ```
 
@@ -597,6 +759,25 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: dvs-3-1
 
+ggplot(data = teacher_evals_compare, 
+       mapping = aes(x = sen_level, fill = SET_level)
+       ) +
+  geom_bar(stat = "count",
+           position = "stack"
+           ) + 
+  scale_fill_manual(values = c("steelblue",
+                               "orange3"
+                               )
+                    ) +
+  theme_bw() +
+  labs(x = "Seniority of Instructor", 
+       y = "", 
+       title = "Number of Sections", 
+       fill = "SET Level"
+       )
+
+# This code is from challenge 3, question 2
+
 ```
 
 -   I can use annotations
@@ -604,12 +785,16 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: dvs-3-2
 
+
+
 ```
 
 -   I can be creative...
 
 ```{r}
 #| label: dvs-3-3
+
+
 
 ```
 
@@ -620,12 +805,21 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: dvs-4-summarize
 
+teacher_evals_clean |> 
+  summarize(courses = n_distinct(course_id), 
+            instructors = n_distinct(teacher_id)
+            )
+
+# This code is from lab 3, question 6 
+
 ```
 
 -   Example using `across()`
 
 ```{r}
 #| label: dvs-4-across
+
+
 
 ```
 
@@ -636,12 +830,29 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: dvs-5-1
 
+teacher_evals_clean |>
+   distinct(teacher_id, academic_degree) |>
+   group_by(academic_degree) |>
+  summarize(count = n())
+
+# This code is from lab 3, question 8
+
+
 ```
 
 -   Example 2
 
 ```{r}
 #| label: dvs-5-2
+
+teacher_evals_clean |>
+   distinct(teacher_id, seniority) |>
+   group_by(seniority) |>
+  summarize(count = n())
+
+# This code is from lab 3, question 8
+
+
 
 ```
 
@@ -652,12 +863,28 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: dvs-6-1
 
+teacher_evals_clean |>
+   distinct(teacher_id, seniority) |>
+   group_by(seniority) |>
+  summarize(count = n())
+
+# This code is from lab 3, question 8
+
+
+
 ```
 
 -   Example 2
 
 ```{r}
 #| label: dvs-6-2
+
+teacher_evals_clean |>
+   distinct(teacher_id, academic_degree) |>
+   group_by(academic_degree) |>
+  summarize(count = n())
+
+# This code is from lab 3, question 8
 
 ```
 
@@ -668,12 +895,16 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: dvs-7-1
 
+
+
 ```
 
 -   Example 2
 
 ```{r}
 #| label: dvs-7-2
+
+
 
 ```
 
@@ -686,6 +917,16 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: pe-1-one-call
 
+crime_scene_report |> 
+  mutate(date = ymd(date)) |> 
+  filter(date == ymd("2018-01-15"), 
+         type == "murder",
+         city == "SQL City"
+         )
+
+# This code is from lab 5, section 1: Crime Scene Report
+
+
 ```
 
 -   `across()`
@@ -693,12 +934,16 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: pe-1-across
 
+# Do not have yet! 
+
 ```
 
 -   `map()` functions
 
 ```{r}
 #| label: pe-1-map-1
+
+# Do not have yet!
 
 ```
 
@@ -709,12 +954,18 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: pe-2-1
 
+# Do not have yet! 
+
+
 ```
 
 -   Function that operates on data frames
 
 ```{r}
 #| label: pe-2-2
+
+# Do not have yet! 
+
 
 ```
 
@@ -725,6 +976,10 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: pe-3-across
 
+
+# Do not have yet! 
+
+
 ```
 
 -   `map()` function with **one** input (e.g., `map()`, `map_chr()`, `map_dbl()`, etc.)
@@ -732,12 +987,16 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: pe-3-map-1
 
+# Do not have yet! 
+
 ```
 
 -   `map()` function with **more than one** input (e.g., `map_2()` or `pmap()`)
 
 ```{r}
 #| label: pe-3-map-2
+
+# Do not  have yet! 
 
 ```
 
@@ -748,12 +1007,76 @@ I've done this in the following provided assignments:
 ```{r}
 #| label: pe-4-1
 
+mhi_region <- ca_childcare |> 
+  select(region, 
+         study_year, 
+         mhi_2018 
+         ) |> 
+  filter(study_year %in% c(2008, 
+                           2018
+                           )
+         ) |> 
+  group_by(region, study_year) |>
+  summarize(median_household_income = median(mhi_2018),
+            .groups = "drop") |>
+  pivot_wider(names_from = study_year,
+              values_from = median_household_income) |> 
+  arrange(desc(`2008`), 
+          desc(`2018`
+              )
+          ) 
+
+# This code is from lab 4, question 4
+
 ```
 
 -   I can connect a data wrangling pipeline into a `ggplot()`
 
 ```{r}
 #| label: pe-4-2
+
+ca_childcare2 <- ca_childcare |>
+  select(study_year,
+         mc_infant,
+         mc_toddler,
+         mc_preschool,
+         region
+         ) |>
+  pivot_longer(cols = starts_with("mc_"), 
+               names_to = "age", 
+               values_to = "median_income"
+               ) |> 
+ mutate(fct_relevel = age, "mc_infant",
+                          "mc_toddler",
+                          "mc_preschool") |> 
+  drop_na()
+
+ggplot(data = ca_childcare2, 
+       mapping = aes(x = study_year,
+                          y = median_income,
+                          color = region
+                          )
+       ) +
+  geom_point() + 
+  geom_smooth() + 
+  facet_wrap(~ age,
+             scales = "free_y"
+             ) +  
+  labs(title = "Weekly Median Price for Center-Based Childcare ($)",
+       x = "Study Year",
+       y = "",
+       color = "California Region"
+       ) +
+  scale_x_continuous(breaks = seq(2008,
+                                  2018, 
+                                  by = 1
+                                  )
+                     ) +
+    theme(axis.text.x = element_text(angle = 45)
+          ) 
+
+# This code is from lab 3, question 6 
+
 
 ```
 
@@ -764,7 +1087,9 @@ I've done this in the following provided assignments:
 -   Example 1
 
 ```{r}
-#| label: dsm-1-1
+#| label: dsm-1-1 
+
+# Do not have yet! 
 
 ```
 
@@ -772,6 +1097,8 @@ I've done this in the following provided assignments:
 
 ```{r}
 #| label: dsm-1-2
+
+# Do not have yet! 
 
 ```
 
@@ -781,6 +1108,10 @@ I've done this in the following provided assignments:
 
 ```{r}
 #| label: dsm-2-1
+
+
+
+
 
 ```
 
