@@ -11,7 +11,7 @@ execute:
   echo: true
 ---
 
-[**My Grade:**]{.underline} I believe my grade equivalent to course work evidenced below to be an \_\_.
+[**My Grade:**]{.underline} I believe my grade equivalent to course work evidenced below to be an A-.
 
 [**Learning Objective Evidence:**]{.underline} In the code chunks below, provide code from Lab or Challenge assignments where you believe you have demonstrated proficiency with the specified learning target. Be sure to specify **where** the code came from (e.g., Lab 4 Question 2).
 
@@ -385,7 +385,7 @@ get_fit_now_member |>
 ```{r}
 #| label: wd-5-full
 
-# Have not done in a lab or challenge yet! 
+# Have not done yet! 
 
 ```
 
@@ -412,14 +412,12 @@ witnesses <- bind_rows(person |>
 # This code is from lab 5, section 4: Examining Witness Interviews. Originally, I hard coded the person_id number. To make my code more flexible, I saved the narrowed-down witness results in a data frame. Then, I used the semi_join() function to combine this data frame with the interview data to access the witness's statements. 
 
 
-
 ```
 
 -   `anti_join()`
 
 ```{r}
 #| label: wd-6-anti
-
 
 
 degrees_not <- tibble(academic_degree = c("no_dgr", "ma"))
@@ -500,9 +498,13 @@ mhi_region <- ca_childcare |>
   arrange(desc(`2008`), 
           desc(`2018`
               )
-          )
+          ) |> 
+  rename(`Median Household Income in 2008` = `2008`,
+         `Median Household Income in 2018` = `2018`
+         ) |>
+  print()
 
-# This codei is from lab 4, question 4
+# This code is from lab 4, question 4. I added column names that were more descriptive so that the reader knows what these columns represent. This is important so that the data frame can be understood by readers.
 
 ```
 
@@ -511,6 +513,8 @@ mhi_region <- ca_childcare |>
 **R-1: I can create professional looking, reproducible analyses using RStudio projects, Quarto documents, and the here package.**
 
 I've done this in the following provided assignments:
+
+Using my YAML to incorporate various aspects to my rendered document such as code-folding and embedding resources, I am able to make my rendered quarto documents look professional. Addd
 
 **R-2: I can write well documented and tidy code.**
 
@@ -563,9 +567,13 @@ mhi_region <- ca_childcare |>
   arrange(desc(`2008`), 
           desc(`2018`
               )
-          )
+          ) |> 
+  rename(`Median Household Income in 2008` = `2008`,
+         `Median Household Income in 2018` = `2018`
+         ) |>
+  print()
 
-# This code is from lab 4, question 4
+# This code is from lab 4, question 4. I added column names that were more descriptive so that the reader knows what these columns represent. This is important so that the data frame can be understood by readers.
 
 ```
 
@@ -590,6 +598,8 @@ person |>
   slice_max(order_by = address_number,
             n = 1
             )
+
+# This code is from lab 5, section 4: Examining Witness Interviews. I removed the arrange() function that I had originally included before slice_max() because the slice_max() function  finds the maximum value based on the specified information, making it unecessary to arrange() the data beforehand.
 
 ```
 
@@ -659,27 +669,25 @@ Length Across Different Rodent Species",
 ```{r}
 #| label: dvs-2-cat
 
-ggplot(data = ToothGrowth, 
-       mapping = aes(x = supp,
-                     y = len
-                     )
+
+ggplot(data = teacher_evals_compare, 
+       mapping = aes(x = sen_level, fill = SET_level)
        ) +
-  geom_boxplot() +
-  labs(x = "Supplement",
-       y = "Length of Teeth (mm)"
-       )
-ToothGrowth |> 
-  mutate(dose = as.factor(dose)) |> 
-  ggplot(mapping = aes(x = dose,
-                       y = len
-                       )
-         ) +
-  geom_boxplot() +
-  labs(x = "Dose of Supplement (mg/day)",
-       y = "Length of Teeth (mm)"
+  geom_bar(stat = "count",
+           position = "stack"
+           ) + 
+  scale_fill_manual(values = c("steelblue",
+                               "orange3"
+                               )
+                    ) +
+  theme_bw() +
+  labs(x = "Seniority of Instructor", 
+       y = "", 
+       title = "Number of Sections", 
+       fill = "SET Level"
        )
 
-# This code is from lab 1, question 6 
+# This code is from challenge 3, question 2
 
 ```
 
@@ -748,7 +756,7 @@ labs(x = "Species",
 ```{r}
 #| label: dvs-2-3
 
-
+# Do not have yet! 
 
 ```
 
@@ -819,7 +827,7 @@ teacher_evals_clean |>
 ```{r}
 #| label: dvs-4-across
 
-
+# Do not have yet! 
 
 ```
 
@@ -866,10 +874,9 @@ teacher_evals_clean |>
 teacher_evals_clean |>
    distinct(teacher_id, seniority) |>
    group_by(seniority) |>
-  summarize(count = n())
+   summarize(count = n())
 
 # This code is from lab 3, question 8
-
 
 
 ```
@@ -882,7 +889,7 @@ teacher_evals_clean |>
 teacher_evals_clean |>
    distinct(teacher_id, academic_degree) |>
    group_by(academic_degree) |>
-  summarize(count = n())
+   summarize(count = n())
 
 # This code is from lab 3, question 8
 
@@ -895,7 +902,7 @@ teacher_evals_clean |>
 ```{r}
 #| label: dvs-7-1
 
-
+# Do not have yet!
 
 ```
 
@@ -904,7 +911,7 @@ teacher_evals_clean |>
 ```{r}
 #| label: dvs-7-2
 
-
+# Do not have yet!
 
 ```
 
@@ -1024,9 +1031,13 @@ mhi_region <- ca_childcare |>
   arrange(desc(`2008`), 
           desc(`2018`
               )
-          ) 
+          ) |> 
+  rename(`Median Household Income in 2008` = `2008`,
+         `Median Household Income in 2018` = `2018`
+         ) |>
+  print()
 
-# This code is from lab 4, question 4
+# This code is from lab 4, question 4. I added column names that were more descriptive so that the reader knows what these columns represent. This is important so that the data frame can be understood by readers.
 
 ```
 
@@ -1075,7 +1086,7 @@ ggplot(data = ca_childcare2,
     theme(axis.text.x = element_text(angle = 45)
           ) 
 
-# This code is from lab 3, question 6 
+# This code is from lab 3, question 6
 
 
 ```
@@ -1109,8 +1120,32 @@ ggplot(data = ca_childcare2,
 ```{r}
 #| label: dsm-2-1
 
+teacher_evals <- read_csv(here("data", "teacher_evals.csv"))
 
+teacher_evals_compare <- teacher_evals |> 
+  filter(question_no == 903) |> 
+  mutate(SET_level = if_else(SET_score_avg >= 4,
+                             "excellent",
+                             "standard"
+                             ), 
+         sen_level = if_else(seniority <= 4,
+                              "junior",
+                              "senior"
+                              )
+          
+         ) |>
+  select(course_id, 
+         SET_level, 
+         sen_level
+         )
 
+chi_square_test <- chisq.test(teacher_evals_compare$SET_level, 
+                              teacher_evals_compare$sen_level
+                              )
+
+print(chi_square_test)
+
+# This code is from challenge 3, questions 1 and 3
 
 
 ```
@@ -1120,6 +1155,14 @@ ggplot(data = ca_childcare2,
 ```{r}
 #| label: dsm-2-2
 
+species_mod <- aov(formula = weight ~species_id, 
+  data = surveys
+                )
+
+summary(species_mod)
+
+# This code is from lab 4, question 8
+
 ```
 
 ## Revising My Thinking
@@ -1128,12 +1171,38 @@ ggplot(data = ca_childcare2,
 
 <!-- For the revisions included in your Portfolio, to help me understand the nature of your revisions, please denote somehow the feedback I provided you (e.g., boldface, italics, colored text) before your revisions. -->
 
+After receiving feedback on each lab, I have submitted revisions with reflections, dedicating significant time to understanding my mistakes, correcting them, and enhancing the efficiency of my code. As someone without much coding experience prior to this course, learning how to use R has been a constructively challenging experience. Working through lab assignments has provided me with the opportunity to struggle through material, enhancing my critical thinking as well as my tangible coding skills. Then, through feedback, I have learned where I was not fully grasping a concept or where I could make my code more efficient. With this feedback, I was able to explore the content more deeply and consider other approaches to coding specific problems. 
+
+For each problem I received a growing on or problems where I received a success but received feedback, when I completed my revision and reflection, I truly sat with the material, considering the importance of the changes I was implementing.  I made sure to consider and explain why it was important to fix or include what I added in my revision. For example, in lab 3, I initially saved unnecessary objects or created new data frames and did not display the results of my code in the quarto document. I did not originally see this as an issue when working on the lab assignment. However, once I received feedback on this aspect of my lab, I became aware of the issue in my lab. I realized I needed to consider when it is necessary and beneficial to save objects and create data frames and when it is unnecessary, a concept I had not considered before. I also realized that my reader was unable to see the results of my code often. I then considered and reflected on the fact that I was not providing the necessary information to the reader of my quarto document for them to be able to understand and follow my lab. Through reflections like these, I gained insight into efficient coding practices and ensuring my coding serves its intended and appropriate purpose.
+
 ## Extending My Thinking
 
 <!-- How did you extended your thinking throughout the course? How did you extend your thinking on the code examples you have provided in your portfolio? -->
+
+Throughout this course so far, I have challenged myself to work through material I did not understand initially. I attempted challenge problems, not always getting them perfectly right. When I received feedback, I made sure to revise these as it was important to me to push myself to deepen my understanding and enhance my coding skills through these more complex problems. I personally also felt challenged by many problems within the lab assignments and spent considerable time thinking out problems and potential ways of coding to solve these problems. 
+
+In my portfolio, I have included code from Challenge 3. This is an example of a problem I attempted and succeeded at, yet found very difficult. In this challenge we were provided with a plot and instructed to write code to recreate this plot. This required me to work backwards and consider all of the components needed to create the plot. I found this problem challenging and worked on it for a while. I struggled with this problem initially, but this struggle was part of the learning experience, ultimately deepening my understanding of making visualizations in R. 
 
 ## Peer Support & Collaboration
 
 <!-- Include an image or a description of feedback you gave that you are proud of (either in a peer review or in Discord). -->
 
+*\
+*Here is an example of peer feedback I provided to a classmate for their Lab 2:
+
+Question 1 - Correctly loaded the R packages needed for your analysis \
+Question 2 - Correctly used the here() package to load in the data \
+Question 3 - You used the glimpse() function to provide a brief overview of the dataset which was a great way to display information about your dataset. However, in your description of the data, you said the dataset contains about 8015 students. Although there are 8015 rows, each row does not correlate to an individual student. If you look at the first three columns, this provides information on what each row represents. \
+Question 4 - Each row represents one question from the SET questionnaire for each class section for a specific teacher. I would make sure to include this aspect because this is a crucial aspect of what differentiates each row. \
+Question 5 - Your code looks really great in this question. One thing you could do to tidy up your code is in your select() line, you could make a new line after each comma. \
+Question 6 - Your code looks great and provides the information you need! If you wanted to, you could make this code into one chunk of code! \
+Question 7 - Your code provides the instructor and course with missing values.\
+Question 8 - I like that you chose to include a barchart to show the demographics of the instructors in the study!\
+Question 9 - The code you wrote looks great! You might want to tidy it up a little bit by making a new line after commas\
+Question 10 - Your code looks great! \
+Question 11 - Your code looks great! \
+Question 12 - Your code looks great!
+
 <!-- Include a description of how you grew as a collaborator through the weekly pair programming activities.   -->
+
+In weekly pair programming activities, I felt I was always able to be patient and respectful and ensure my partner's input was valued and considered. I made it a priority to listen as the coder to create a collaborative environment where I valued my partner’s perspective and also learned from their ideas and coding approach. Although I had some difficulties communicating when I felt my voice wasn’t being heard and wish I did to ensure my ideas were being considered, I feel I have become more capable and confident redirecting our focus to maintain our respective roles and enhance our collaboration.
