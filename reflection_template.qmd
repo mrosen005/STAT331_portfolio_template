@@ -11,7 +11,7 @@ execute:
   echo: true
 ---
 
-[**My Grade:**]{.underline} I believe my grade equivalent to course work evidenced below to be an B+.
+[**My Grade:**]{.underline} I believe my grade equivalent to course work evidenced below to be an A-.
 
 [**Learning Objective Evidence:**]{.underline} In the code chunks below, provide code from Lab or Challenge assignments where you believe you have demonstrated proficiency with the specified learning target. Be sure to specify **where** the code came from (e.g., Lab 4 Question 2).
 
@@ -26,7 +26,7 @@ execute:
 
 surveys <- read_csv(here("data", "surveys.csv"))
 
-# This code is from lab 2, question 1
+# This code is from lab 2, question 1.
 
 ```
 
@@ -37,7 +37,7 @@ surveys <- read_csv(here("data", "surveys.csv"))
 
 agesxl <- read_xlsx(path = here::here("check-ins", "2.1-loading-data", "Ages_Data", "ages.xlsx"), sheet = "ages")
 
-# This code is from Check-in 2.3
+# This code is from Check-in 2.3.
 
 ```
 
@@ -49,7 +49,7 @@ agesxl <- read_xlsx(path = here::here("check-ins", "2.1-loading-data", "Ages_Dat
 ages_tab <- read_table(file = here::here("Week 2", "Check-ins", "Ages_Data", "ages_tab.txt"))
 
 
-# This code is from Check-in 2.3
+# This code is from Check-in 2.3.
 
 
 ```
@@ -75,8 +75,7 @@ teacher_evals_clean <- teacher_evals |>
          sex
         )
 
-# This code is from lab 3, question 5
-
+# This code is from lab 3, question 5.
 
 ```
 
@@ -103,8 +102,7 @@ teacher_evals_clean <- teacher_evals |>
          sex
         )
 
-# This code is from lab 3, question 5
-
+# This code is from lab 3, question 5.
 
 ```
 
@@ -113,13 +111,22 @@ teacher_evals_clean <- teacher_evals |>
 ```{r}
 #| label: wd-3-string
 
-person |> 
-  mutate(is_annabel = str_detect(name, "^Annabel")) |>
+witnesses <- bind_rows(person |> 
+  filter(address_street_name == "Northwestern Dr") |> 
+  slice_max(order_by = address_number,
+            n = 1
+            ), 
+  person |> 
+  mutate(is_annabel = str_detect(name,
+                                 "^Annabel"
+                                 )
+         ) |>
   filter(address_street_name == "Franklin Ave",
          is_annabel
           )
-      
-# This code is from lab 5, section 3: Finding Witness 2. I changed the way I identified rows with names that start with Annabel by using the mutate() function to create a new column which detects strings beginning with Annabel. Then, I filtered for rows that contained a string beginning with Annabel and rows of individuals who live on Franklin Ave. 
+  )
+
+# This code is from lab 5, section 2: Finding Witnesses.
 
 ```
 
@@ -134,7 +141,7 @@ ca_childcare <- counties |>
              by = "county_fips_code"
              )
 
-# This code is from lab 4, question 2
+# This code is from lab 4, question 2.
 
 ```
 
@@ -143,14 +150,32 @@ ca_childcare <- counties |>
 ```{r}
 #| label: wd-3-date
 
-crime_scene_report |> 
-  mutate(date = ymd(date)) |> 
-  filter(date == ymd("2018-01-15"), 
-         type == "murder",
-         city == "SQL City"
-         ) 
+suspect <- person |>
+  inner_join(drivers_license,
+             join_by(license_id == id)) |>
+  inner_join(facebook_event_checkin,
+             join_by(id == person_id)) |>
+  mutate(concert_month = month(ymd(date))) |>
+  filter(gender == "female",
+         height %in% c("65","66",
+                        "67"
+                        ),
+         hair_color == "red",
+         car_model == "Model S",
+         car_make == "Tesla", 
+         event_name == "SQL Symphony Concert",
+         concert_month == 12,
+         year(ymd(date)) == 2017
+         ) |> 
+  group_by(id, name) |> 
+  summarize(event_name = n(), 
+            .groups = "drop"
+            ) |> 
+  filter(event_name == 3) |>
+  print()
 
-# This code is from lab 5, section 1: Crime Scene Report
+
+# This code is from lab 5, section 6: Finding Person Responsible.
 
 ```
 
@@ -178,7 +203,7 @@ teacher_evals |>
          sen_level
          )
 
-# This code is from challenge 3, question 1
+# This code is from challenge 3, question 1.
 
 ```
 
@@ -187,13 +212,22 @@ teacher_evals |>
 ```{r}
 #| label: wd-4-string
 
-person |> 
-  mutate(is_annabel = str_detect(name, "^Annabel")) |>
+witnesses <- bind_rows(person |> 
+  filter(address_street_name == "Northwestern Dr") |> 
+  slice_max(order_by = address_number,
+            n = 1
+            ), 
+  person |> 
+  mutate(is_annabel = str_detect(name,
+                                 "^Annabel"
+                                 )
+         ) |>
   filter(address_street_name == "Franklin Ave",
          is_annabel
           )
+  )
       
-# This code is from lab 5, section 3: Finding Witness 2. I changed the way I identified rows with names that start with Annabel by using the mutate() function to create a new column which detects strings beginning with Annabel. Then, I filtered for rows that contained a string beginning with Annabel and rows of individuals who live on Franklin Ave. 
+# This code is from lab 5, section 2: Finding Witnesses.
 
 ```
 
@@ -272,7 +306,7 @@ ca_childcare <- ca_childcare |>
                                )
          ) 
 
-# This code is from lab 4, question 3
+# This code is from lab 4, question 3.
 
 ```
 
@@ -281,14 +315,33 @@ ca_childcare <- ca_childcare |>
 ```{r}
 #| label: wd-4-date
 
-crime_scene_report |> 
-  mutate(date = ymd(date)) |> 
-  filter(date == ymd("2018-01-15"), 
-         type == "murder",
-         city == "SQL City"
-         )
+suspect <- person |>
+  inner_join(drivers_license,
+             join_by(license_id == id)) |>
+  inner_join(facebook_event_checkin,
+             join_by(id == person_id)) |>
+  mutate(concert_month = month(ymd(date))) |>
+  filter(gender == "female",
+         height %in% c("65","66",
+                        "67"
+                        ),
+         hair_color == "red",
+         car_model == "Model S",
+         car_make == "Tesla", 
+         event_name == "SQL Symphony Concert",
+         concert_month == 12,
+         year(ymd(date)) == 2017
+         ) |> 
+  group_by(id, name) |> 
+  summarize(event_name = n(), 
+            .groups = "drop"
+            ) |> 
+  filter(event_name == 3) |>
+  print()
 
-# This code is from lab 5, section 1: Crime Scene Report 
+
+# This code is from lab 5, section 6: Finding Person Responsible.
+
 
 ```
 
@@ -324,9 +377,7 @@ get_fit_now_member |>
                   )
           )
 
-# This code is from lab 5, section 5: Using Witness's Clues. Although I realize this code would be more effective using the inner_join() function, the left_join still works. I do not have other examples from my lab assignments of left_join so am keeping this in here temporarily. 
-
-
+# This code is from lab 5, section 4: Using Witness's Clues. Although using the inner_join() function would be more efficient, using the left_join() function still achieves the same result. The inner_join() function is more effective because it retain rows where there is a match between the keys in both datasets. When using the left_join() function, all of the rows from the left dataset are kept, meaning that if there are unmatched rows in the right dataset, there will be rows with NA cells. This leads the resulting joined dataset to potentially have irrelevant observations and be less clean than if the inner_join() function was used.
 
 ```
 
@@ -341,7 +392,7 @@ ca_childcare <- counties |>
              by = "county_fips_code"
              )
 
-# This code is from lab 4, question 2
+# This code is from lab 4, question 2.
 
 ```
 
@@ -376,16 +427,7 @@ get_fit_now_member |>
           )
 
 
-# This code is from lab 5, section 5: Using Witness's Clues. I originally used left_join(), which works, but creates NA's when the second dataset does not have a matching row with nformation. It is more effective for this question to use the inner_join() function so that we only get rows that are in both data sets since I am trying to narrow down these datasets to one row based on the factors included in this code. 
-
-```
-
--   `full_join()`
-
-```{r}
-#| label: wd-5-full
-
-# Have not done yet! 
+# This code is from lab 5, section 4: Using Witness's Clues. I originally used left_join(), which works, but creates NA's when the second dataset does not have a matching row with nformation. It is more effective for this question to use the inner_join() function so that we only get rows that are in both data sets since I am trying to narrow down these datasets to one row based on the factors included in this code. 
 
 ```
 
@@ -396,20 +438,12 @@ get_fit_now_member |>
 ```{r}
 #| label: wd-6-semi
 
-witnesses <- bind_rows(person |> 
-  filter(address_street_name == "Northwestern Dr") |> 
-  slice_max(order_by = address_number,
-            n = 1
-            ), 
-  person |> 
-  filter(address_street_name == "Franklin Ave",
-         (str_detect(name, "Annabel"
-                     )
-          )
-         )
-  )
+interview |> 
+    semi_join(witnesses, 
+            by = c("person_id" = "id")
+            )
 
-# This code is from lab 5, section 4: Examining Witness Interviews. Originally, I hard coded the person_id number. To make my code more flexible, I saved the narrowed-down witness results in a data frame. Then, I used the semi_join() function to combine this data frame with the interview data to access the witness's statements. 
+# This code is from lab 5, section 3: Examining Witness Interviews.
 
 
 ```
@@ -455,6 +489,11 @@ teacher_evals_clean |>
 ```{r}
 #| label: wd-7-long
 
+library(scales)
+library(RColorBrewer)
+
+custom <-colorRampPalette(brewer.pal(8, "Accent"))(10)
+
 ca_childcare |>
   select(study_year,
          mc_infant,
@@ -462,17 +501,64 @@ ca_childcare |>
          mc_preschool,
          region
          ) |>
-  pivot_longer(cols = starts_with("mc_"), 
+  rename(Infant = mc_infant, 
+         Toddler = mc_toddler,
+         Preschool = mc_preschool
+         ) |> 
+  pivot_longer(cols = c("Infant",
+                       "Toddler", 
+                       "Preschool"
+                       ), 
                names_to = "age", 
                values_to = "median_income"
                ) |> 
- mutate(fct_relevel = age, "mc_infant",
-                          "mc_toddler",
-                          "mc_preschool") |> 
-  drop_na()
+  mutate(fct_relevel(age, "Infant",
+                          "Toddler",
+                          "Preschool")
+        ) |>
+  drop_na() |>
+  ggplot(mapping = aes(x = study_year,
+                          y = median_income,
+                          color = fct_reorder2(region,
+                                               study_year,
+                                               median_income
+                                               )
+                          )
+       ) +
+  geom_point(size = 0.5) + 
+  geom_smooth() + 
+  facet_wrap(~ age) +  
+  labs(title = "Weekly Median Price for Center-Based Childcare ($)",
+       x = "Study Year",
+       y = "",
+       color = "California Region"
+       ) +
+  scale_x_continuous(breaks = seq(2008,
+                                  2018, 
+                                  by = 2,
+                                  )
+                     ) + 
+  scale_y_continuous(breaks = c(100,
+                                200,
+                                300,
+                                400,
+                                500
+                                ), 
+                     limits = c(100,
+                                500
+                                )
+                     ) +
+  scale_color_manual(values = custom) +
+  theme_bw() + 
+  theme(aspect.ratio = 1, 
+        axis.text.x = element_text(size = 6), 
+        legend.title = element_text(size = 8),   
+        legend.text = element_text(size = 8), 
+        title = element_text(size = 8)
+        )
 
 
-# This code is from lab 4, question 6
+# This code is from lab 4, question 6.
 
 ```
 
@@ -480,6 +566,7 @@ ca_childcare |>
 
 ```{r}
 #| label: wd-7-wide
+
 
 mhi_region <- ca_childcare |> 
   select(region, 
@@ -494,17 +581,15 @@ mhi_region <- ca_childcare |>
   summarize(median_household_income = median(mhi_2018),
             .groups = "drop") |>
   pivot_wider(names_from = study_year,
-              values_from = median_household_income) |> 
-  arrange(desc(`2008`), 
-          desc(`2018`
-              )
-          ) |> 
-  rename(`Median Household Income in 2008` = `2008`,
-         `Median Household Income in 2018` = `2018`
-         ) |>
+              values_from = median_household_income,
+              names_prefix = "Median Household Income in ") |> 
+  arrange(desc(`Median Household Income in 2008`), 
+          desc(`Median Household Income in 2018`)
+          ) |>
+  rename("Region" = region) |>
   print()
 
-# This code is from lab 4, question 4. I added column names that were more descriptive so that the reader knows what these columns represent. This is important so that the data frame can be understood by readers.
+# This code is from lab 4, question 4.
 
 ```
 
@@ -514,7 +599,7 @@ mhi_region <- ca_childcare |>
 
 I've done this in the following provided assignments:
 
-I have demonstrated this learning target throughout my lab assignments this qarter. Firstly, in the YAML of my quarto documents, I have incorporated various aspects to my rendered document such as code-folding and embedding resources, making my quarto documents look professional. Secondly, I have been conscientious of making my code tidy, adhering to the tidyverse style guidelines, using named arguments and making new lines after commas, plus signs, and pipe operators. I have also been conscientious of making my code efficient, specifically using one function to perform multiple operations. Lastly, I have learned how to use and have implemented the here function into my projects to load in data.
+I have demonstrated this learning target throughout my lab assignments this qarter. Firstly, in the YAML of my quarto documents, I have incorporated various features to my rendered document such as code-folding and embedding resources, making my quarto documents look professional. Secondly, I have been conscientious of making my code tidy, adhering to the tidyverse style guidelines, using named arguments, and starting new lines after commas, plus signs, and pipe operators. I have also been conscientious of making my code efficient, specifically using one function to perform multiple operations. Lastly, I have learned how to use and have implemented the here function into my projects to load in data.
 
 **R-2: I can write well documented and tidy code.**
 
@@ -523,25 +608,38 @@ I have demonstrated this learning target throughout my lab assignments this qart
 ```{r}
 #| label: r-2-1
 
+# Initializing a plot using the dataset, teacher_evals_compare, with seniority level mapped to the x axis and SET level mapped to fill color. 
 ggplot(data = teacher_evals_compare, 
-       mapping = aes(x = sen_level,
-                     fill = SET_level)
+       mapping = aes(x = sen_level, fill = SET_level)
        ) +
+# Creating a stacked barplot to count observations
   geom_bar(stat = "count",
            position = "stack"
            ) + 
-  scale_fill_manual(values = c("steelblue",
-                               "orange3"
+# Adding colors to the SET levels, excellent and standard
+  scale_fill_manual(values = c("#c51b8a",
+                               "#fa9fb5"
                                )
-                    ) +
+                  ) +
+# Adding a background theme
   theme_bw() +
+# Adding labels to x axis, adding a title, and removing a label from the y axis to prevent viewers from having to tilt their heads 
   labs(x = "Seniority of Instructor", 
        y = "", 
-       title = "Number of Sections", 
-       fill = "SET Level"
-       )
+       title = "Number of Sections"
+       ) +
+# Adding annotations on the bars to display the count of each SET_level category
 
-# This code is from challenge 3, question 2
+  geom_text(stat = "count", 
+            mapping = aes(label = SET_level),     
+            color = "white",                
+            size = 3, 
+            vjust = 2
+            ) +
+# Removes legend from visualization
+  theme(legend.position = "none") 
+
+# This code is from challenge 3, question 2.
 
 ```
 
@@ -550,30 +648,38 @@ ggplot(data = teacher_evals_compare,
 ```{r}
 #| label: r-2-2
 
+
+# Selecting columns from the ca_childcare dataset  
 mhi_region <- ca_childcare |> 
   select(region, 
          study_year, 
          mhi_2018 
          ) |> 
+# Filtering the dataset to only include the years, 2008 and 2018
   filter(study_year %in% c(2008, 
                            2018
                            )
          ) |> 
+# Grouping the data by region and study_year 
   group_by(region, study_year) |>
+# Calculating the median household income for each region in 2008 and 2018  
   summarize(median_household_income = median(mhi_2018),
             .groups = "drop") |>
+# Pivoting the data to a wider format, where each study year, 2008 and 2018, have their own column with the values in these two columns being the median household incomes for respective regions
   pivot_wider(names_from = study_year,
-              values_from = median_household_income) |> 
-  arrange(desc(`2008`), 
-          desc(`2018`
-              )
-          ) |> 
-  rename(`Median Household Income in 2008` = `2008`,
-         `Median Household Income in 2018` = `2018`
-         ) |>
+              values_from = median_household_income,
+              # Adding a prefix to new columns for clarity 
+              names_prefix = "Median Household Income in ") |>  
+# Arranging the rows in descending order of median household income for 2008 and 2018
+  arrange(desc(`Median Household Income in 2008`), 
+          desc(`Median Household Income in 2018`)
+          ) |>
+# Renaming the region column to be capitalized for consistency in column names 
+  rename("Region" = region) |>
+# Printing the final table 
   print()
 
-# This code is from lab 4, question 4. I added column names that were more descriptive so that the reader knows what these columns represent. This is important so that the data frame can be understood by readers.
+# This code is from lab 4, question 4.
 
 ```
 
@@ -582,7 +688,22 @@ mhi_region <- ca_childcare |>
 ```{r}
 #| label: r-2-3
 
-# Do not have yet! 
+rescale_01 <- function(x) {
+  # Checking if the input is a numeric vector and if the input is not numeric, stopping the function and returning an error message. 
+  if (!is.numeric(x)) stop("Input vector must be numeric.")
+  
+  # Checking if the input vector has more than one element and if the input vector does not have more than one element, stopping the function and returning an error message. 
+  if (length(x) <= 1) stop("Input vector requires more than one element.")
+  
+  # Calculating the range of the input vector 
+  range_1 <- range(x,
+        na.rm = TRUE
+        )
+  # Subtracting the minimumum value from the input vector and dividing by the difference between the maximum and minimum vale of the input vector to rescale the input vector to a 0-1 range
+  (x - range_1[1]) / (range_1[2] - range_1[1])
+}
+
+# This code is from lab 7, question 4.
 
 ```
 
@@ -599,7 +720,7 @@ person |>
             n = 1
             )
 
-# This code is from lab 5, section 4: Examining Witness Interviews. I removed the arrange() function that I had originally included before slice_max() because the slice_max() function  finds the maximum value based on the specified information, making it unecessary to arrange() the data beforehand.
+# This code is from lab 5, section 3: Examining Witness Interviews.
 
 ```
 
@@ -669,15 +790,14 @@ Length Across Different Rodent Species",
 ```{r}
 #| label: dvs-2-cat
 
-
 ggplot(data = teacher_evals_compare, 
        mapping = aes(x = sen_level, fill = SET_level)
        ) +
   geom_bar(stat = "count",
            position = "stack"
            ) + 
-  scale_fill_manual(values = c("steelblue",
-                               "orange3"
+  scale_fill_manual(values = c("#c51b8a",
+                               "#fa9fb5"
                                )
                     ) +
   theme_bw() +
@@ -685,7 +805,15 @@ ggplot(data = teacher_evals_compare,
        y = "", 
        title = "Number of Sections", 
        fill = "SET Level"
-       )
+       ) +
+  geom_text(stat = "count", 
+            mapping = aes(label = SET_level),     
+            color = "white",                
+            size = 3, 
+            vjust = 2
+            ) +
+  theme(legend.position = "none") 
+
 
 # This code is from challenge 3, question 2
 
@@ -696,7 +824,47 @@ ggplot(data = teacher_evals_compare,
 ```{r}
 #| label: dvs-2-date
 
-# Do not have yet!  
+ca_childcare2 <- ca_childcare |>
+  select(study_year,
+         mc_infant,
+         mc_toddler,
+         mc_preschool,
+         region
+         ) |>
+  pivot_longer(cols = starts_with("mc_"), 
+               names_to = "age", 
+               values_to = "median_income"
+               ) |> 
+ mutate(fct_relevel = age, "mc_infant",
+                          "mc_toddler",
+                          "mc_preschool") |> 
+  drop_na()
+
+ggplot(data = ca_childcare2, 
+       mapping = aes(x = study_year,
+                          y = median_income,
+                          color = region
+                          )
+       ) +
+  geom_point() + 
+  geom_smooth() + 
+  facet_wrap(~ age,
+             scales = "free_y"
+             ) +  
+  labs(title = "Weekly Median Price for Center-Based Childcare ($)",
+       x = "Study Year",
+       y = "",
+       color = "California Region"
+       ) +
+  scale_x_continuous(breaks = seq(2008,
+                                  2018, 
+                                  by = 1
+                                  )
+                     ) +
+    theme(axis.text.x = element_text(angle = 45)
+          ) 
+# This code is from lab 4, question 6 
+
 
 ```
 
@@ -731,23 +899,94 @@ Length Across Different Rodent Species",
 ```{r}
 #| label: dvs-2-2
 
-ggplot(data = surveys, 
-       mapping = aes(x = species, 
-          y = weight
-                    )
-       ) + 
-geom_boxplot(outliers = FALSE) +
-geom_jitter(
-   color = "orange", 
-          alpha = 0.1
-            ) +
-  theme(axis.text.x = element_text(angle = 45)
-        ) +
-labs(x = "Species", 
-     y = "Weight (in grams)", 
-     title = "Weight Distributions Across Rodent Species")
+library(scales)
+library(RColorBrewer)
 
-# This code is from lab 2, question 8
+custom <-colorRampPalette(brewer.pal(8, "Accent"))(10)
+
+ca_childcare |>
+  select(study_year,
+         mc_infant,
+         mc_toddler,
+         mc_preschool,
+         region
+         ) |>
+  rename(Infant = mc_infant, 
+         Toddler = mc_toddler,
+         Preschool = mc_preschool
+         ) |> 
+  pivot_longer(cols = c("Infant",
+                       "Toddler", 
+                       "Preschool"
+                       ), 
+               names_to = "age", 
+               values_to = "median_income"
+               ) |> 
+  mutate(fct_relevel(age, "Infant",
+                          "Toddler",
+                          "Preschool")
+        ) |>
+  drop_na() |>
+  ggplot(mapping = aes(x = study_year,
+                          y = median_income,
+                          color = fct_reorder2(region,
+                                               study_year,
+                                               median_income
+                                               )
+                          )
+       ) +
+  geom_point(size = 0.5) + 
+  geom_smooth() + 
+  facet_wrap(~ age) +  
+  labs(title = "Weekly Median Price for Center-Based Childcare ($)",
+       x = "Study Year",
+       y = "",
+       color = "California Region"
+       ) +
+  scale_x_continuous(breaks = seq(2008,
+                                  2018, 
+                                  by = 2,
+                                  )
+                     ) + 
+  scale_y_continuous(breaks = c(100,
+                                200,
+                                300,
+                                400,
+                                500
+                                ), 
+                     limits = c(100,
+                                500
+                                )
+                     ) +
+  scale_color_manual(values = custom) +
+  theme_bw() + 
+  theme(aspect.ratio = 1, 
+        axis.text.x = element_text(size = 6), 
+        legend.title = element_text(size = 8),   
+        legend.text = element_text(size = 8), 
+        title = element_text(size = 8)
+        )
+
+# This is from lab 4, question 6
+
+ggplot(data = ca_childcare, 
+       mapping = aes(x = mhi_2018, 
+                     y = mc_infant
+                     )
+       ) + 
+  geom_point(alpha = 0.5) + 
+  geom_smooth(method = "lm",
+              color = "steelblue"
+              ) +
+  labs(title = "Relationship Between Median Household Income and Median Weekly 
+  Center-Based Chilcare Cost for an Infant in California",
+       x = "Median Household Income (in U.S. dollars)", 
+       y = ""
+       ) +
+  scale_x_continuous(labels = label_dollar()) +
+  scale_y_continuous(labels = label_dollar())
+
+# This code is from lab 4, question 7
 
 ```
 
@@ -756,7 +995,75 @@ labs(x = "Species",
 ```{r}
 #| label: dvs-2-3
 
-# Do not have yet! 
+library(scales)
+library(RColorBrewer)
+
+custom <-colorRampPalette(brewer.pal(8, "Accent"))(10)
+
+ca_childcare |>
+  select(study_year,
+         mc_infant,
+         mc_toddler,
+         mc_preschool,
+         region
+         ) |>
+  rename(Infant = mc_infant, 
+         Toddler = mc_toddler,
+         Preschool = mc_preschool
+         ) |> 
+  pivot_longer(cols = c("Infant",
+                       "Toddler", 
+                       "Preschool"
+                       ), 
+               names_to = "age", 
+               values_to = "median_income"
+               ) |> 
+  mutate(fct_relevel(age, "Infant",
+                          "Toddler",
+                          "Preschool")
+        ) |>
+  drop_na() |>
+  ggplot(mapping = aes(x = study_year,
+                          y = median_income,
+                          color = fct_reorder2(region,
+                                               study_year,
+                                               median_income
+                                               )
+                          )
+       ) +
+  geom_point(size = 0.5) + 
+  geom_smooth() + 
+  facet_wrap(~ age) +  
+  labs(title = "Weekly Median Price for Center-Based Childcare ($)",
+       x = "Study Year",
+       y = "",
+       color = "California Region"
+       ) +
+  scale_x_continuous(breaks = seq(2008,
+                                  2018, 
+                                  by = 2,
+                                  )
+                     ) + 
+  scale_y_continuous(breaks = c(100,
+                                200,
+                                300,
+                                400,
+                                500
+                                ), 
+                     limits = c(100,
+                                500
+                                )
+                     ) +
+  scale_color_manual(values = custom) +
+  theme_bw() + 
+  theme(aspect.ratio = 1, 
+        axis.text.x = element_text(size = 6), 
+        legend.title = element_text(size = 8),   
+        legend.text = element_text(size = 8), 
+        title = element_text(size = 8)
+        )
+
+# This code is from lab 4, question 6
 
 ```
 
@@ -773,8 +1080,8 @@ ggplot(data = teacher_evals_compare,
   geom_bar(stat = "count",
            position = "stack"
            ) + 
-  scale_fill_manual(values = c("steelblue",
-                               "orange3"
+  scale_fill_manual(values = c("#c51b8a",
+                               "#fa9fb5"
                                )
                     ) +
   theme_bw() +
@@ -782,9 +1089,56 @@ ggplot(data = teacher_evals_compare,
        y = "", 
        title = "Number of Sections", 
        fill = "SET Level"
-       )
+       ) +
+  geom_text(stat = "count", 
+            mapping = aes(label = SET_level),     
+            color = "white",                
+            size = 3, 
+            vjust = 2
+            ) +
+  theme(legend.position = "none") 
 
-# This code is from challenge 3, question 2
+
+ggplot(data = tibble_of_results, 
+       mapping = aes(x = ncorrect,
+                     y = after_stat(count) / sum(after_stat(count)
+                                                 )
+                    )
+         ) + 
+  geom_bar(color = "#c51b8a", fill = "#fa9fb5") + 
+  labs(x = "Number of Babies Correctly Matched Babies Per Simulation",
+       y = "", 
+       title = "Proportion of Simulations of Correctly Matched Babies",
+       subtitle = "Proportion of Simulations") +
+  theme_bw() + 
+  theme_minimal() 
+
+# This code is from lab 9, question 3
+
+ggplot(data = all_simulations,
+         mapping = aes(x = simulated_means)
+         ) + 
+geom_histogram(color = "#756bb1",
+                 fill = "#bcbddc"
+                 ) + 
+facet_wrap(~ n, 
+             scales = "free_y", 
+           labeller = labeller(n = c("10" = "Sample Size of 10", 
+                                     "100" = "Sample Size of 100", 
+                                     "1000" = "Sample Size of 1,000",
+                                     "10000" = "Sample Size of 10,000"
+                                     )
+                               )
+             ) +
+labs(title = "Distribution of Simulated Means Across Sample Sizes", 
+       y = "", 
+       x = "Simulated Mean",
+       subtitle = "Frequency"
+       ) +
+theme_bw() + 
+theme_minimal()
+
+# This code is from lab 9, question 8
 
 ```
 
@@ -793,7 +1147,32 @@ ggplot(data = teacher_evals_compare,
 ```{r}
 #| label: dvs-3-2
 
+ggplot(data = teacher_evals_compare, 
+       mapping = aes(x = sen_level, fill = SET_level)
+       ) +
+  geom_bar(stat = "count",
+           position = "stack"
+           ) + 
+  scale_fill_manual(values = c("#c51b8a",
+                               "#fa9fb5"
+                               )
+                    ) +
+  theme_bw() +
+  labs(x = "Seniority of Instructor", 
+       y = "", 
+       title = "Number of Sections", 
+       fill = "SET Level"
+       ) +
+  geom_text(stat = "count", 
+            mapping = aes(label = SET_level),     
+            color = "white",                
+            size = 3, 
+            vjust = 2
+            ) +
+  theme(legend.position = "none") 
 
+
+# This code is from challenge 3, question 2
 
 ```
 
@@ -802,6 +1181,31 @@ ggplot(data = teacher_evals_compare,
 ```{r}
 #| label: dvs-3-3
 
+ggplot(data = teacher_evals_compare, 
+       mapping = aes(x = sen_level, fill = SET_level)
+       ) +
+  geom_bar(stat = "count",
+           position = "stack"
+           ) + 
+  scale_fill_manual(values = c("#c51b8a",
+                               "#fa9fb5"
+                               )
+                    ) +
+  theme_bw() +
+  labs(x = "Seniority of Instructor", 
+       y = "", 
+       title = "Number of Sections", 
+       fill = "SET Level"
+       ) +
+  geom_text(stat = "count", 
+            mapping = aes(label = SET_level),     
+            color = "white",                
+            size = 3, 
+            vjust = 2
+            ) +
+  theme(legend.position = "none") 
+
+# This code is from challenge 3, question 2
 
 
 ```
@@ -827,7 +1231,20 @@ teacher_evals_clean |>
 ```{r}
 #| label: dvs-4-across
 
-# Do not have yet! 
+missing_values <- fish |> 
+  summarise(across(.cols = trip:species, 
+           .fns = ~ sum(is.na(.)),
+           .names = "{.col}_na"
+                  )
+           ,
+    na_observations = sum(if_any(everything(),
+                                 is.na
+                                 )
+                          )
+    ) |>
+  print()
+
+# This code is from lab 7, question 1
 
 ```
 
@@ -838,12 +1255,43 @@ teacher_evals_clean |>
 ```{r}
 #| label: dvs-5-1
 
-teacher_evals_clean |>
-   distinct(teacher_id, academic_degree) |>
-   group_by(academic_degree) |>
-  summarize(count = n())
+library(gt)
 
-# This code is from lab 3, question 8
+all_simulations |> 
+  group_by(n) |> 
+  summarize(mean = mean(simulated_means),
+            .groups = "drop"
+            ) |> 
+  pivot_wider(id_cols = everything(), 
+              names_from = n, 
+              values_from = mean) |> 
+  rename('Simulated Mean of 10' = '10',
+         'Simulated Mean of 100' = '100', 
+         'Simulated Mean of 1,000' = '1000',
+         'Simulated Mean of 10,000' = '10000'
+         ) |> 
+  gt() |> 
+  tab_header(title = "Simulated Means By Sample Size", 
+             subtitle = "Exploration of Results Across Varying Sample Sizes"
+             ) |> 
+  tab_options(table.font.size = "18", 
+              column_labels.font.size = "15", 
+              heading.title.font.size = "25", 
+              table.background.color = "#f0f0f0", 
+              table.border.bottom.color = "#636363", 
+              table.font.names = "Times New Roman"
+              ) |>
+ fmt_number(decimals = 3) |>
+  tab_style(style = list(cell_borders(sides = "all",
+                                      color= "black"
+                                      ),
+                         cell_fill(color = "white")
+                         ),
+            locations = cells_body()
+            )
+
+
+# This code is from lab 9, question 7.
 
 
 ```
@@ -853,14 +1301,28 @@ teacher_evals_clean |>
 ```{r}
 #| label: dvs-5-2
 
-teacher_evals_clean |>
-   distinct(teacher_id, seniority) |>
-   group_by(seniority) |>
-  summarize(count = n())
+mhi_region <- ca_childcare |> 
+  select(region, 
+         study_year, 
+         mhi_2018 
+         ) |> 
+  filter(study_year %in% c(2008, 
+                           2018
+                           )
+         ) |> 
+  group_by(region, study_year) |>
+  summarize(median_household_income = median(mhi_2018),
+            .groups = "drop") |>
+  pivot_wider(names_from = study_year,
+              values_from = median_household_income,
+              names_prefix = "Median Household Income in ") |> 
+  arrange(desc(`Median Household Income in 2008`), 
+          desc(`Median Household Income in 2018`)
+          ) |>
+  rename("Region" = region) |>
+  print()
 
-# This code is from lab 3, question 8
-
-
+# This code is from lab 4, question 4
 
 ```
 
@@ -941,7 +1403,20 @@ crime_scene_report |>
 ```{r}
 #| label: pe-1-across
 
-# Do not have yet! 
+missing_values <- fish |> 
+  summarise(across(.cols = trip:species, 
+           .fns = ~ sum(is.na(.)),
+           .names = "{.col}_na"
+                  )
+           ,
+    na_observations = sum(if_any(everything(),
+                                 is.na
+                                 )
+                          )
+    ) |>
+  print()
+
+# This code is from lab 7, question 1
 
 ```
 
@@ -950,7 +1425,16 @@ crime_scene_report |>
 ```{r}
 #| label: pe-1-map-1
 
-# Do not have yet!
+tibble(Variable = names(fish), 
+       Missing = map_int(fish, 
+                         ~ sum(is.na(.x)
+                               )
+                         )
+       ) |> 
+  rename(`Missing Amount` = Missing, 
+         `Fish Attributes` = Variable) |>
+  knitr::kable() |>
+  kableExtra::kable_styling(font_size = 15)
 
 ```
 
@@ -1027,17 +1511,30 @@ mhi_region <- ca_childcare |>
   summarize(median_household_income = median(mhi_2018),
             .groups = "drop") |>
   pivot_wider(names_from = study_year,
-              values_from = median_household_income) |> 
-  arrange(desc(`2008`), 
-          desc(`2018`
-              )
-          ) |> 
-  rename(`Median Household Income in 2008` = `2008`,
-         `Median Household Income in 2018` = `2018`
-         ) |>
+              values_from = median_household_income,
+              names_prefix = "Median Household Income in ") |> 
+  arrange(desc(`Median Household Income in 2008`), 
+          desc(`Median Household Income in 2018`)
+          ) |>
+  rename("Region" = region) |>
   print()
 
-# This code is from lab 4, question 4. I added column names that were more descriptive so that the reader knows what these columns represent. This is important so that the data frame can be understood by readers.
+# This code is from lab 4, question 4
+
+missing_values <- fish |> 
+  summarise(across(.cols = trip:species, 
+           .fns = ~ sum(is.na(.)),
+           .names = "{.col}_na"
+                  )
+           ,
+    na_observations = sum(if_any(everything(),
+                                 is.na
+                                 )
+                          )
+    ) |>
+  print()
+
+# This code is from lab 7, question 1
 
 ```
 
@@ -1046,33 +1543,45 @@ mhi_region <- ca_childcare |>
 ```{r}
 #| label: pe-4-2
 
-ca_childcare2 <- ca_childcare |>
+library(scales)
+library(RColorBrewer)
+
+custom <-colorRampPalette(brewer.pal(8, "Accent"))(10)
+
+ca_childcare |>
   select(study_year,
          mc_infant,
          mc_toddler,
          mc_preschool,
          region
          ) |>
-  pivot_longer(cols = starts_with("mc_"), 
+  rename(Infant = mc_infant, 
+         Toddler = mc_toddler,
+         Preschool = mc_preschool
+         ) |> 
+  pivot_longer(cols = c("Infant",
+                       "Toddler", 
+                       "Preschool"
+                       ), 
                names_to = "age", 
                values_to = "median_income"
                ) |> 
- mutate(fct_relevel = age, "mc_infant",
-                          "mc_toddler",
-                          "mc_preschool") |> 
-  drop_na()
-
-ggplot(data = ca_childcare2, 
-       mapping = aes(x = study_year,
+  mutate(fct_relevel(age, "Infant",
+                          "Toddler",
+                          "Preschool")
+        ) |>
+  drop_na() |>
+  ggplot(mapping = aes(x = study_year,
                           y = median_income,
-                          color = region
+                          color = fct_reorder2(region,
+                                               study_year,
+                                               median_income
+                                               )
                           )
        ) +
-  geom_point() + 
+  geom_point(size = 0.5) + 
   geom_smooth() + 
-  facet_wrap(~ age,
-             scales = "free_y"
-             ) +  
+  facet_wrap(~ age) +  
   labs(title = "Weekly Median Price for Center-Based Childcare ($)",
        x = "Study Year",
        y = "",
@@ -1080,13 +1589,29 @@ ggplot(data = ca_childcare2,
        ) +
   scale_x_continuous(breaks = seq(2008,
                                   2018, 
-                                  by = 1
+                                  by = 2,
                                   )
+                     ) + 
+  scale_y_continuous(breaks = c(100,
+                                200,
+                                300,
+                                400,
+                                500
+                                ), 
+                     limits = c(100,
+                                500
+                                )
                      ) +
-    theme(axis.text.x = element_text(angle = 45)
-          ) 
+  scale_color_manual(values = custom) +
+  theme_bw() + 
+  theme(aspect.ratio = 1, 
+        axis.text.x = element_text(size = 6), 
+        legend.title = element_text(size = 8),   
+        legend.text = element_text(size = 8), 
+        title = element_text(size = 8)
+        )
 
-# This code is from lab 3, question 6
+# This code is from lab 4, question 6
 
 
 ```
@@ -1100,7 +1625,25 @@ ggplot(data = ca_childcare2,
 ```{r}
 #| label: dsm-1-1 
 
-# Do not have yet! 
+randomBabies <- function(nBabies){
+   babies <- tibble(baby = 1: nBabies, 
+                    parent = sample(1: nBabies,
+                                    size = nBabies,
+                                    replace = FALSE
+                                    )
+   )         
+  correct_baby_count <- sum(babies$baby == babies$parent)
+  return(correct_baby_count)
+
+}
+
+results <- map_int(.x = 1:10000, 
+                   .f = ~ randomBabies(nBabies = 4))
+
+head(results)
+
+# This code is from lab 9, question 1. Originally, I used $ operators to get correct_baby_count, but realized I could use the summarize() function here instead. By using the summarize() function instead of the $ operator, my code more closely follows the tidyverse guidelines. This esures that my code is readable, clear, and efficient.
+
 
 ```
 
@@ -1190,17 +1733,17 @@ In my portfolio, I have included code from Challenge 3. This is an example of a 
 *\
 *Here is an example of peer feedback I provided to a classmate for their Lab 2:
 
-Question 1 - Correctly loaded the R packages needed for your analysis \
-Question 2 - Correctly used the here() package to load in the data \
-Question 3 - You used the glimpse() function to provide a brief overview of the dataset which was a great way to display information about your dataset. However, in your description of the data, you said the dataset contains about 8015 students. Although there are 8015 rows, each row does not correlate to an individual student. If you look at the first three columns, this provides information on what each row represents. \
-Question 4 - Each row represents one question from the SET questionnaire for each class section for a specific teacher. I would make sure to include this aspect because this is a crucial aspect of what differentiates each row. \
-Question 5 - Your code looks really great in this question. One thing you could do to tidy up your code is in your select() line, you could make a new line after each comma. \
-Question 6 - Your code looks great and provides the information you need! If you wanted to, you could make this code into one chunk of code! \
+Question 1 - Correctly loaded the R packages needed for your analysis\
+Question 2 - Correctly used the here() package to load in the data\
+Question 3 - You used the glimpse() function to provide a brief overview of the dataset which was a great way to display information about your dataset. However, in your description of the data, you said the dataset contains about 8015 students. Although there are 8015 rows, each row does not correlate to an individual student. If you look at the first three columns, this provides information on what each row represents.\
+Question 4 - Each row represents one question from the SET questionnaire for each class section for a specific teacher. I would make sure to include this aspect because this is a crucial aspect of what differentiates each row.\
+Question 5 - Your code looks really great in this question. One thing you could do to tidy up your code is in your select() line, you could make a new line after each comma.\
+Question 6 - Your code looks great and provides the information you need! If you wanted to, you could make this code into one chunk of code!\
 Question 7 - Your code provides the instructor and course with missing values.\
 Question 8 - I like that you chose to include a barchart to show the demographics of the instructors in the study!\
 Question 9 - The code you wrote looks great! You might want to tidy it up a little bit by making a new line after commas\
-Question 10 - Your code looks great! \
-Question 11 - Your code looks great! \
+Question 10 - Your code looks great!\
+Question 11 - Your code looks great!\
 Question 12 - Your code looks great!
 
 <!-- Include a description of how you grew as a collaborator through the weekly pair programming activities.   -->
