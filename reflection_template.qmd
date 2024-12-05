@@ -342,7 +342,6 @@ suspect <- person |>
 
 # This code is from lab 5, section 6: Finding Person Responsible.
 
-
 ```
 
 **WD-5: I can use mutating joins to combine multiple dataframes.**
@@ -427,7 +426,7 @@ get_fit_now_member |>
           )
 
 
-# This code is from lab 5, section 4: Using Witness's Clues. I originally used left_join(), which works, but creates NA's when the second dataset does not have a matching row with nformation. It is more effective for this question to use the inner_join() function so that we only get rows that are in both data sets since I am trying to narrow down these datasets to one row based on the factors included in this code. 
+# This code is from lab 5, section 4: Using Witness's Clues. I originally used left_join(), which works to combine the data sets, but includes NA's when the second dataset does not have a matching row. For this task, using the inner_join() function is more effective because it only retains rows with matching data, aligning better with the goal of this task to narrow down the datasets to a single row based on the specified factors in the code. 
 
 ```
 
@@ -444,7 +443,6 @@ interview |>
             )
 
 # This code is from lab 5, section 3: Examining Witness Interviews.
-
 
 ```
 
@@ -589,7 +587,7 @@ mhi_region <- ca_childcare |>
   rename("Region" = region) |>
   print()
 
-# This code is from lab 4, question 4.
+# This code is from lab 4, question 4. 
 
 ```
 
@@ -729,7 +727,16 @@ person |>
 ```{r}
 #| label: r-3-function-stops
 
-# Do not have yet!  
+rescale_01 <- function(x) {
+  if(!is.numeric(x)) stop("Input vector must be numeric.")
+  if(length(x) <= 1) stop("Input vector requires more than one element.")
+  range_1 <- range(x,
+        na.rm = TRUE
+        )
+  (x - range_1[1]) / (range_1[2] - range_1[1])
+}
+
+# This code is from lab 7, question 4.
 
 ```
 
@@ -756,7 +763,7 @@ Length Across Different Rodent Species",
       subtitle = "Length of Hindfoot (in mm)"
        )
 
-# This code is from lab 2, question 4
+# This code is from lab 2, question 4.
 
 ```
 
@@ -780,7 +787,7 @@ Length Across Different Rodent Species",
       subtitle = "Length of Hindfoot (in mm)"
        )
 
-# This code is from lab 2, question 4
+# This code is from lab 2, question 4.
 
 
 ```
@@ -815,7 +822,7 @@ ggplot(data = teacher_evals_compare,
   theme(legend.position = "none") 
 
 
-# This code is from challenge 3, question 2
+# This code is from challenge 3, question 2.
 
 ```
 
@@ -824,33 +831,45 @@ ggplot(data = teacher_evals_compare,
 ```{r}
 #| label: dvs-2-date
 
-ca_childcare2 <- ca_childcare |>
+library(scales)
+library(RColorBrewer)
+
+custom <-colorRampPalette(brewer.pal(8, "Accent"))(10)
+
+ca_childcare |>
   select(study_year,
          mc_infant,
          mc_toddler,
          mc_preschool,
          region
          ) |>
-  pivot_longer(cols = starts_with("mc_"), 
+  rename(Infant = mc_infant, 
+         Toddler = mc_toddler,
+         Preschool = mc_preschool
+         ) |> 
+  pivot_longer(cols = c("Infant",
+                       "Toddler", 
+                       "Preschool"
+                       ), 
                names_to = "age", 
                values_to = "median_income"
                ) |> 
- mutate(fct_relevel = age, "mc_infant",
-                          "mc_toddler",
-                          "mc_preschool") |> 
-  drop_na()
-
-ggplot(data = ca_childcare2, 
-       mapping = aes(x = study_year,
+  mutate(fct_relevel(age, "Infant",
+                          "Toddler",
+                          "Preschool")
+        ) |>
+  drop_na() |>
+  ggplot(mapping = aes(x = study_year,
                           y = median_income,
-                          color = region
+                          color = fct_reorder2(region,
+                                               study_year,
+                                               median_income
+                                               )
                           )
        ) +
-  geom_point() + 
+  geom_point(size = 0.5) + 
   geom_smooth() + 
-  facet_wrap(~ age,
-             scales = "free_y"
-             ) +  
+  facet_wrap(~ age) +  
   labs(title = "Weekly Median Price for Center-Based Childcare ($)",
        x = "Study Year",
        y = "",
@@ -858,12 +877,29 @@ ggplot(data = ca_childcare2,
        ) +
   scale_x_continuous(breaks = seq(2008,
                                   2018, 
-                                  by = 1
+                                  by = 2,
                                   )
+                     ) + 
+  scale_y_continuous(breaks = c(100,
+                                200,
+                                300,
+                                400,
+                                500
+                                ), 
+                     limits = c(100,
+                                500
+                                )
                      ) +
-    theme(axis.text.x = element_text(angle = 45)
-          ) 
-# This code is from lab 4, question 6 
+  scale_color_manual(values = custom) +
+  theme_bw() + 
+  theme(aspect.ratio = 1, 
+        axis.text.x = element_text(size = 6), 
+        legend.title = element_text(size = 8),   
+        legend.text = element_text(size = 8), 
+        title = element_text(size = 8)
+        )
+
+# This code is from lab 4, question 6.
 
 
 ```
@@ -885,12 +921,11 @@ ggplot(data = surveys,
   facet_wrap(~species) +
   labs(x = "Weight of Rodent (in grams)",
        y = "",
-       title = "Relationship Between Body Weight and Hindfoot
-Length Across Different Rodent Species", 
-      subtitle = "Length of Hindfoot (in mm)"
+       title = "Relationship Between Body Weight and Hindfoot Length Across Different Rodent           Species", 
+       subtitle = "Length of Hindfoot (in mm)"
        )
 
-# This code is from lab 2, question 4
+# This code is from lab 2, question 4. 
 
 ```
 
@@ -967,7 +1002,7 @@ ca_childcare |>
         title = element_text(size = 8)
         )
 
-# This is from lab 4, question 6
+# This is from lab 4, question 6.
 
 ggplot(data = ca_childcare, 
        mapping = aes(x = mhi_2018, 
@@ -986,7 +1021,7 @@ ggplot(data = ca_childcare,
   scale_x_continuous(labels = label_dollar()) +
   scale_y_continuous(labels = label_dollar())
 
-# This code is from lab 4, question 7
+# This code is from lab 4, question 7.
 
 ```
 
@@ -1063,7 +1098,7 @@ ca_childcare |>
         title = element_text(size = 8)
         )
 
-# This code is from lab 4, question 6
+# This code is from lab 4, question 6. 
 
 ```
 
@@ -1075,7 +1110,9 @@ ca_childcare |>
 #| label: dvs-3-1
 
 ggplot(data = teacher_evals_compare, 
-       mapping = aes(x = sen_level, fill = SET_level)
+       mapping = aes(x = sen_level,
+                     fill = SET_level
+                     )
        ) +
   geom_bar(stat = "count",
            position = "stack"
@@ -1098,22 +1135,8 @@ ggplot(data = teacher_evals_compare,
             ) +
   theme(legend.position = "none") 
 
+# This code is from challenge 3, question 2.
 
-ggplot(data = tibble_of_results, 
-       mapping = aes(x = ncorrect,
-                     y = after_stat(count) / sum(after_stat(count)
-                                                 )
-                    )
-         ) + 
-  geom_bar(color = "#c51b8a", fill = "#fa9fb5") + 
-  labs(x = "Number of Babies Correctly Matched Babies Per Simulation",
-       y = "", 
-       title = "Proportion of Simulations of Correctly Matched Babies",
-       subtitle = "Proportion of Simulations") +
-  theme_bw() + 
-  theme_minimal() 
-
-# This code is from lab 9, question 3
 
 ggplot(data = all_simulations,
          mapping = aes(x = simulated_means)
@@ -1123,14 +1146,14 @@ geom_histogram(color = "#756bb1",
                  ) + 
 facet_wrap(~ n, 
              scales = "free_y", 
-           labeller = labeller(n = c("10" = "Sample Size of 10", 
-                                     "100" = "Sample Size of 100", 
-                                     "1000" = "Sample Size of 1,000",
-                                     "10000" = "Sample Size of 10,000"
+           labeller = labeller(n = c("10" = "10 Simulated Means", 
+                                     "100" = "100 Simulated Means", 
+                                     "1000" = "1,000 Simulated Means",
+                                     "10000" = "10,000 Simulated Means"
                                      )
                                )
              ) +
-labs(title = "Distribution of Simulated Means Across Sample Sizes", 
+labs(title = "Distribution of Simulated Means by Simulation Sizes", 
        y = "", 
        x = "Simulated Mean",
        subtitle = "Frequency"
@@ -1138,7 +1161,7 @@ labs(title = "Distribution of Simulated Means Across Sample Sizes",
 theme_bw() + 
 theme_minimal()
 
-# This code is from lab 9, question 8
+# This code is from lab 9, question 8. I originally labelled each facet as "Sample Size of _" instead of "_ Simulated Means." I realize now that the plot is showing the distributions of simulated means from each of the simualtions, not the distribution of means based on sample size. It is important that I accurately label my facets to avoid misleading viewers, ensuring the data and information is interpreted correctly. 
 
 ```
 
@@ -1172,7 +1195,7 @@ ggplot(data = teacher_evals_compare,
   theme(legend.position = "none") 
 
 
-# This code is from challenge 3, question 2
+# This code is from challenge 3, question 2.
 
 ```
 
@@ -1205,7 +1228,7 @@ ggplot(data = teacher_evals_compare,
             ) +
   theme(legend.position = "none") 
 
-# This code is from challenge 3, question 2
+# This code is from challenge 3, question 2.
 
 
 ```
@@ -1222,7 +1245,7 @@ teacher_evals_clean |>
             instructors = n_distinct(teacher_id)
             )
 
-# This code is from lab 3, question 6 
+# This code is from lab 3, question 6. 
 
 ```
 
@@ -1333,12 +1356,42 @@ mhi_region <- ca_childcare |>
 ```{r}
 #| label: dvs-6-1
 
-teacher_evals_clean |>
-   distinct(teacher_id, seniority) |>
-   group_by(seniority) |>
-   summarize(count = n())
+library(gt)
 
-# This code is from lab 3, question 8
+all_simulations |> 
+  group_by(n) |> 
+  summarize(mean = mean(simulated_means),
+            .groups = "drop"
+            ) |> 
+  pivot_wider(id_cols = everything(), 
+              names_from = n, 
+              values_from = mean) |> 
+  rename('Simulated Mean of 10 Means' = '10',
+         'Simulated Mean of 100 Means' = '100', 
+         'Simulated Mean of 1,000 Means' = '1000',
+         'Simulated Mean of 10,000 Means' = '10000'
+         ) |> 
+  gt() |> 
+  tab_header(title = "Simulated Mean of Means By Sample Size", 
+             subtitle = "Exploration of Results Across Varying Sample Sizes"
+             ) |> 
+  tab_options(table.font.size = "18", 
+              column_labels.font.size = "15", 
+              heading.title.font.size = "25", 
+              table.background.color = "#f0f0f0", 
+              table.border.bottom.color = "#636363", 
+              table.font.names = "Times New Roman"
+              ) |>
+ fmt_number(decimals = 3) |>
+  tab_style(style = list(cell_borders(sides = "all",
+                                      color= "black"
+                                      ),
+                         cell_fill(color = "white")
+                         ),
+            locations = cells_body()
+            )
+
+# This code is from lab 9, question 7. I originally labeled the title "Simulated Means By Sample Size" instead of "Simulated Mean of Means By Sample Size" and each column, "Simulated Mean of __" instead of "Simulated Mean of __ Means." I now realize that this is not the simulated means but the simulated means of means. It is important that I correctly label all aspects of my table to ensure viewers correctly interpret my table and there are no misunderstandings about what the data represents. 
 
 
 ```
@@ -1348,12 +1401,51 @@ teacher_evals_clean |>
 ```{r}
 #| label: dvs-6-2
 
-teacher_evals_clean |>
-   distinct(teacher_id, academic_degree) |>
-   group_by(academic_degree) |>
-   summarize(count = n())
+library(gt)
 
-# This code is from lab 3, question 8
+tibble_of_results <- enframe(results, 
+                             name = "simulation_number",
+                             value = "ncorrect"
+                             )
+
+random_babies_table <- tibble_of_results |> 
+  count(ncorrect, 
+        name = "baby_count") |> 
+  mutate(proportion = baby_count / sum(baby_count))
+
+rotate_proportions <- random_babies_table |> 
+  select(ncorrect, 
+         proportion
+         ) |> 
+  pivot_wider(names_from = ncorrect, 
+              values_from = proportion
+                ) |>
+  rename("0 Correct Matches" = "0",
+         "1 Correct Match" = "1", 
+         "2 Correct Matches" = "2", 
+         "4 Correct Matches" = "4") |>
+   gt() |> 
+  tab_header(title = "Baby Matching Simulation Results", 
+             subtitle = "Proportions of Correctly Matched Babies Across 10,000 Simulations"
+             ) |> 
+  tab_options(table.font.size = "18", 
+              column_labels.font.size = "15", 
+              heading.title.font.size = "25", 
+              table.background.color = "#f0f0f0", 
+              table.border.bottom.color = "#636363", 
+              table.font.names = "Times New Roman"
+              ) |>
+ fmt_number(decimals = 3) |>
+  tab_style(style = list(cell_borders(sides = "all",
+                                      color= "black"
+                                      ),
+                         cell_fill(color = "white")
+                         ),
+            locations = cells_body() 
+            ) |>
+  print()
+ 
+# This code is from lab 9, question 2. I originally used the names_prefix() function to add a prefix to the names of my columns, but these names were not the strongest names to describe the context of the columns. Instead, I used the rename() function to add stronger descriptive names for each column. Originally, I also included both the counts and proportions. I removed the counts as this was unnecessary and redundant.  
 
 ```
 
@@ -1364,7 +1456,52 @@ teacher_evals_clean |>
 ```{r}
 #| label: dvs-7-1
 
-# Do not have yet!
+library(gt)
+
+tibble_of_results <- enframe(results, 
+                             name = "simulation_number",
+                             value = "ncorrect"
+                             )
+
+random_babies_table <- tibble_of_results |> 
+  count(ncorrect, 
+        name = "baby_count") |> 
+  mutate(proportion = baby_count / sum(baby_count))
+
+rotate_proportions <- random_babies_table |> 
+  select(ncorrect, 
+         proportion
+         ) |> 
+  pivot_wider(names_from = ncorrect, 
+              values_from = proportion
+                ) |>
+  rename("0 Correct Matches" = "0",
+         "1 Correct Match" = "1", 
+         "2 Correct Matches" = "2", 
+         "4 Correct Matches" = "4") |>
+   gt() |> 
+  tab_header(title = "Baby Matching Simulation Results", 
+             subtitle = "Proportions of Correctly Matched Babies Across Simulations"
+             ) |> 
+  tab_options(table.font.size = "18", 
+              column_labels.font.size = "15", 
+              heading.title.font.size = "25", 
+              table.background.color = "#f0f0f0", 
+              table.border.bottom.color = "#636363", 
+              table.font.names = "Times New Roman"
+              ) |>
+ fmt_number(decimals = 3) |>
+  tab_style(style = list(cell_borders(sides = "all",
+                                      color= "black"
+                                      ),
+                         cell_fill(color = "white")
+                         ),
+            locations = cells_body() 
+            ) |>
+  print()
+ 
+# This code is from lab 9, question 2. I originally used the names_prefix() function to add a prefix to the names of my columns, but these names were not the strongest names to describe the context of the columns. Instead, I used the rename() function to add stronger descriptive names for each column. Originally, I also included both the counts and proportions. I removed the counts as this was unnecessary and redundant.  
+
 
 ```
 
@@ -1373,7 +1510,42 @@ teacher_evals_clean |>
 ```{r}
 #| label: dvs-7-2
 
-# Do not have yet!
+library(gt)
+
+all_simulations |> 
+  group_by(n) |> 
+  summarize(mean = mean(simulated_means),
+            .groups = "drop"
+            ) |> 
+  pivot_wider(id_cols = everything(), 
+              names_from = n, 
+              values_from = mean) |> 
+  rename('Simulated Mean of 10 Means' = '10',
+         'Simulated Mean of 100 Means' = '100', 
+         'Simulated Mean of 1,000 Means' = '1000',
+         'Simulated Mean of 10,000 Means' = '10000'
+         ) |> 
+  gt() |> 
+  tab_header(title = "Simulated Mean of Means By Sample Size", 
+             subtitle = "Exploration of Results Across Varying Sample Sizes"
+             ) |> 
+  tab_options(table.font.size = "18", 
+              column_labels.font.size = "15", 
+              heading.title.font.size = "25", 
+              table.background.color = "#f0f0f0", 
+              table.border.bottom.color = "#636363", 
+              table.font.names = "Times New Roman"
+              ) |>
+ fmt_number(decimals = 3) |>
+  tab_style(style = list(cell_borders(sides = "all",
+                                      color= "black"
+                                      ),
+                         cell_fill(color = "white")
+                         ),
+            locations = cells_body()
+            )
+
+# This code is from lab 9, question 7. I originally labeled the title "Simulated Means By Sample Size" instead of "Simulated Mean of Means By Sample Size" and each column, "Simulated Mean of __" instead of "Simulated Mean of __ Means." I now realize that this is not the simulated means but the simulated means of means. It is important that I correctly label all aspects of my table to ensure viewers correctly interpret my table and there are no misunderstandings about what the data represents. 
 
 ```
 
@@ -1393,7 +1565,7 @@ crime_scene_report |>
          city == "SQL City"
          )
 
-# This code is from lab 5, section 1: Crime Scene Report
+# This code is from lab 5, section 1: Crime Scene Report.
 
 
 ```
@@ -1416,7 +1588,7 @@ missing_values <- fish |>
     ) |>
   print()
 
-# This code is from lab 7, question 1
+# This code is from lab 7, question 1.
 
 ```
 
@@ -1436,6 +1608,8 @@ tibble(Variable = names(fish),
   knitr::kable() |>
   kableExtra::kable_styling(font_size = 15)
 
+# This code is from lab 8, question 4.
+
 ```
 
 **PE-2: I can write functions to reduce repetition in my code.**
@@ -1445,7 +1619,16 @@ tibble(Variable = names(fish),
 ```{r}
 #| label: pe-2-1
 
-# Do not have yet! 
+rescale_01 <- function(x) {
+  if(!is.numeric(x)) stop("Input vector must be numeric.")
+  if(length(x) <= 1) stop("Input vector requires more than one element.")
+  range_1 <- range(x,
+        na.rm = TRUE
+        )
+  (x - range_1[1]) / (range_1[2] - range_1[1])
+}
+
+# This code is from lab 7, question 4
 
 
 ```
@@ -1455,20 +1638,38 @@ tibble(Variable = names(fish),
 ```{r}
 #| label: pe-2-2
 
-# Do not have yet! 
+ map_chr_func <- function(df){
+  typ <- map_chr(df,
+                 class
+                 )
+  return(typ)
+ }
 
+# This code is from lab 8, question 1. 
 
 ```
 
-**PE-3:I can use iteration to reduce repetition in my code.**
+**PE-3: I can use iteration to reduce repetition in my code.**
 
 -   `across()`
 
 ```{r}
 #| label: pe-3-across
 
+rescale_column <- function(Df, cols) {
+    if (!is.data.frame(Df)) {stop("The input 'Df' is not a dataframe.")
+    }
+    if (!all(cols %in% colnames(Df))) {stop("One or more of the columns in 'cols' are not in the given dataframe")
+      }
+   Df <- Df |> 
+    mutate(across({{cols}},
+                  rescale_01
+                  )
+           )
+  return(Df)
+}
 
-# Do not have yet! 
+# This code is from lab 7, question 8. 
 
 
 ```
@@ -1478,7 +1679,18 @@ tibble(Variable = names(fish),
 ```{r}
 #| label: pe-3-map-1
 
-# Do not have yet! 
+tibble(Variable = names(fish), 
+       Missing = map_int(fish, 
+                         ~ sum(is.na(.x)
+                               )
+                         )
+       ) |> 
+  rename(`Missing Amount` = Missing, 
+         `Fish Attributes` = Variable) |>
+  knitr::kable() |>
+  kableExtra::kable_styling(font_size = 15)
+
+# This code is from lab 8, question 4.
 
 ```
 
@@ -1487,7 +1699,28 @@ tibble(Variable = names(fish),
 ```{r}
 #| label: pe-3-map-2
 
-# Do not  have yet! 
+simulate_means <- function(n, df){
+  map_dbl(.x = 1: n, 
+          .f = ~rchisq(n = 100, df = df) %>% mean()
+          )
+}
+
+grid <- crossing(n = c(10,
+                       100,
+                       1000,
+                       10000
+                       ), 
+                 df = 10)
+
+all_simulations <- grid |> 
+  mutate(simulated_means = pmap(.l = list(n = n, 
+                                          df = df
+                                          ), 
+                                .f = simulate_means)
+         ) |> 
+  unnest(simulated_means) 
+
+# This code is from lab 9, questions 4-6.
 
 ```
 
@@ -1497,29 +1730,6 @@ tibble(Variable = names(fish),
 
 ```{r}
 #| label: pe-4-1
-
-mhi_region <- ca_childcare |> 
-  select(region, 
-         study_year, 
-         mhi_2018 
-         ) |> 
-  filter(study_year %in% c(2008, 
-                           2018
-                           )
-         ) |> 
-  group_by(region, study_year) |>
-  summarize(median_household_income = median(mhi_2018),
-            .groups = "drop") |>
-  pivot_wider(names_from = study_year,
-              values_from = median_household_income,
-              names_prefix = "Median Household Income in ") |> 
-  arrange(desc(`Median Household Income in 2008`), 
-          desc(`Median Household Income in 2018`)
-          ) |>
-  rename("Region" = region) |>
-  print()
-
-# This code is from lab 4, question 4
 
 missing_values <- fish |> 
   summarise(across(.cols = trip:species, 
@@ -1652,7 +1862,28 @@ head(results)
 ```{r}
 #| label: dsm-1-2
 
-# Do not have yet! 
+simulate_means <- function(n, df){
+  map_dbl(.x = 1: n, 
+          .f = ~rchisq(n = 100, df = df) %>% mean()
+          )
+}
+
+grid <- crossing(n = c(10,
+                       100,
+                       1000,
+                       10000
+                       ), 
+                 df = 10)
+
+all_simulations <- grid |> 
+  mutate(simulated_means = pmap(.l = list(n = n, 
+                                          df = df
+                                          ), 
+                                .f = simulate_means)
+         ) |> 
+  unnest(simulated_means) 
+
+# This code is from lab 9, questions 4-6. 
 
 ```
 
