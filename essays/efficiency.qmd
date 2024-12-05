@@ -8,10 +8,20 @@ As we’ve said in the class efficiency is a pivotal component of statistical co
 
 -   What is the definition of “efficiency”?
 
+Efficiency is the way in which we approach tasks in the most optimal way.
+
 -   What does efficiency look like in statistical computing / data science?
+
+In statistical computing / data science, efficiency looks like following the do not repeat yourself (DRY) principle. This means writing concise and non-repetitive code.
 
 -   What does efficiency allow you to do?
 
+Efficiency allows you to write code that is consistent and readable, making it easier for you to understand when revisiting code in the future or for collaborating with others.
+
 -   Why is efficiency important?
 
--   Where did you encounter efficiency, and what were some [“a-ha” moments](https://www.merriam-webster.com/dictionary/aha%20moment) you had about efficiency? (For the latter, tie each a-ha moment to an artifact in the portfolio.)
+Efficiency is vital because it ensures the code you write is easily understandable, both for when revisiting your own work and for collaborating on code with others. It saves time spent deciphering code, contributing to smoother processes.
+
+-   Where did you encounter efficiency, and what were some [“a-ha” moments](https://www.merriam-webster.com/dictionary/aha%20moment) you had about efficiency? (For the latter, tie each a-ha moment to an artifact in the portfolio.
+
+In the beginning of the quarter, I realized the importance of efficiency when manipulating multiple aspects of data. In lab 3, as I was learning how to use various data manipulation functions, I was not focused on efficiency, but rather just understanding and applying these functions correctly. Looking back on this lab however, I see how repetitive it was to call the same function multiple times. It made my code hard to read and follow. As the quarter progressed and I became more comfortable with data manipulation tools, I prioritized efficiency principles into my coding. For example, in Lab 5, Section 6: Finding Person Responsible, I had to filter eight of the columns in the data set. Rather than calling the filter() function eight separate times, I incorporated efficiency principles by using the filter() function once and separating each condition by commas. This approach allowed me to achieve my desired result of filtering eight columns within one function, making my code concise and readable. Comparing my inefficient code from early on in the quarter to the efficient code I am able to write now, I understand how beneficial efficient code is for revisiting my own code in the future and for collaborators to easily understand my code.

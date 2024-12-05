@@ -6,16 +6,22 @@ editor: visual
 
 **Answer each of the following questions with *one sentence* including a brief explanation.**
 
-1. Finish the sentence with another student’s name: "If [Name of Student] doesn’t earn an A, then nobody should, because..." Explain your choice and your reasoning.
+1.  Finish the sentence with another student’s name: "If \[Name of Student\] doesn’t earn an A, then nobody should, because..." Explain your choice and your reasoning.
 
+    If Cassandra Miller does not earn an A, then nobody should, because throughout the quarter, Cassandra has always been willing to help explain concepts to others who were having difficulty understanding during lab time, embodying the collaborative spirit of this course.
 
-2. What was the most difficult part of the class for you? List a general topic, a specific problem, a kind of work we did, etc. and explain why.
+2.  What was the most difficult part of the class for you? List a general topic, a specific problem, a kind of work we did, etc. and explain why.
 
+    Having minimal experience coding prior to this course, I found learning how to think about tasks to be most difficult because this required me to shift my mindset to approach these problems in a way that is different from how I naturally process information.
 
-3. What was the easiest part of the class for you? Explain why.
+3.  What was the easiest part of the class for you? Explain why.
 
+    The easiest part of class was working with data manipulation and wrangling tools because I had some experience using these tools from STAT 313 and found that already knowing the purpose of these tools allowed me to use them effectively and efficiently in this course.
 
-4. What part of the class surprised or interested you the most? Explain why.
+4.  What part of the class surprised or interested you the most? Explain why.
 
+    I found learning how to use pivots to be most interesting because these functions help to create tables that organize data in a way that is logical and readable, and therefore tidier.
 
-5. Give one piece of advice to a student just beginning a quarter of STAT 331 that will help them be successful in learning.
+5.  Give one piece of advice to a student just beginning a quarter of STAT 331 that will help them be successful in learning.
+
+    To be successful in this course, I would recommend dedicating significant time to the readings, videos, and exercises assigned before class as these provide a solid foundation for the week's content.

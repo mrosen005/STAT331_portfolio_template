@@ -11,7 +11,7 @@ execute:
   echo: true
 ---
 
-[**My Grade:**]{.underline} I believe my grade equivalent to course work evidenced below to be an A-.
+[**My Grade:**]{.underline} I believe my grade equivalent to course work evidenced below to be an A.
 
 [**Learning Objective Evidence:**]{.underline} In the code chunks below, provide code from Lab or Challenge assignments where you believe you have demonstrated proficiency with the specified learning target. Be sure to specify **where** the code came from (e.g., Lab 4 Question 2).
 
@@ -597,7 +597,7 @@ mhi_region <- ca_childcare |>
 
 I've done this in the following provided assignments:
 
-I have demonstrated this learning target throughout my lab assignments this qarter. Firstly, in the YAML of my quarto documents, I have incorporated various features to my rendered document such as code-folding and embedding resources, making my quarto documents look professional. Secondly, I have been conscientious of making my code tidy, adhering to the tidyverse style guidelines, using named arguments, and starting new lines after commas, plus signs, and pipe operators. I have also been conscientious of making my code efficient, specifically using one function to perform multiple operations. Lastly, I have learned how to use and have implemented the here function into my projects to load in data.
+I have demonstrated this learning target throughout my lab assignments this quarter. Firstly, in the YAML of my quarto documents, I have incorporated various features to my rendered document such as code-folding and embedding resources, enhancing the professionalism of my rendered quarto documents. Secondly, I have made a conscious effort to write tidy code, adhering to the tidyverse style guidelines, using named arguments, and starting new lines after commas, plus signs, and pipe operators. Additionally, I have been thoughtful to ensure that my code is efficient, specifically using one function to perform multiple operations and calculating multiple summary statistics by using functions such as the summarize and across functions. One lab I am particularly proud of for its professional appearance is lab 5. In this lab, I formatted my own quarto document and included section headers to make clear sections for the viewer to be able to easily follow along. Lastly, I have learned how to use and implement the here function into my projects to load in data of various formats including csv, xlsx, and txt files.
 
 **R-2: I can write well documented and tidy code.**
 
@@ -637,7 +637,7 @@ ggplot(data = teacher_evals_compare,
 # Removes legend from visualization
   theme(legend.position = "none") 
 
-# This code is from challenge 3, question 2.
+# This code is from challenge 3, question 2. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
 
 ```
 
@@ -822,7 +822,7 @@ ggplot(data = teacher_evals_compare,
   theme(legend.position = "none") 
 
 
-# This code is from challenge 3, question 2.
+# This code is from challenge 3, question 2. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
 
 ```
 
@@ -921,7 +921,7 @@ ggplot(data = surveys,
   facet_wrap(~species) +
   labs(x = "Weight of Rodent (in grams)",
        y = "",
-       title = "Relationship Between Body Weight and Hindfoot Length Across Different Rodent           Species", 
+       title = "Relationship Between Body Weight and Hindfoot Length Across Different Rodent Species", 
        subtitle = "Length of Hindfoot (in mm)"
        )
 
@@ -1109,6 +1109,42 @@ ca_childcare |>
 ```{r}
 #| label: dvs-3-1
 
+library(ggridges)
+
+
+  ggplot(data = surveys, 
+       mapping = aes(x = weight,
+        y = species, 
+        stat = "density_ridges",
+        position = "points_sina",
+        fill = species
+                    )
+       ) +
+  geom_density_ridges() + 
+  labs(x = "Weight (in grams)" , 
+     y = "", 
+     subtitle = "Species of Rodents",
+     title = "Density Ridge Plots of Weights of Various Rodent Species") +
+ scale_fill_manual(values = c("torridus" = "#c51b8a", 
+                              "spectabilis" = "#fa9fb5", 
+                              "penicillatus" = "#f03b20", 
+                              "ordii" = "#feb24c", 
+                              "merriami" = "#fff7bc", 
+                              "megalotis" = "#edf8b1",
+                              "maniculatus" =  "#a1d99b",
+                              "leucogaster" = "#e5f5f9", 
+                              "hispidus" = "#7fcdbb", 
+                              "fulvescens" = "#2b8cbe", 
+                              "flavus" = "#e7e1ef", 
+                              "eremicus" = "#bcbddc", 
+                              "baileyi" = "#756bb1", 
+                              "albigula" = "#8856a7"
+                              )
+                   ) +
+    theme(legend.position = "none")
+  
+# This code is from challenge 2, spicy. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
+
 ggplot(data = teacher_evals_compare, 
        mapping = aes(x = sen_level,
                      fill = SET_level
@@ -1135,7 +1171,7 @@ ggplot(data = teacher_evals_compare,
             ) +
   theme(legend.position = "none") 
 
-# This code is from challenge 3, question 2.
+# This code is from challenge 3, question 2. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
 
 
 ggplot(data = all_simulations,
@@ -1161,7 +1197,7 @@ labs(title = "Distribution of Simulated Means by Simulation Sizes",
 theme_bw() + 
 theme_minimal()
 
-# This code is from lab 9, question 8. I originally labelled each facet as "Sample Size of _" instead of "_ Simulated Means." I realize now that the plot is showing the distributions of simulated means from each of the simualtions, not the distribution of means based on sample size. It is important that I accurately label my facets to avoid misleading viewers, ensuring the data and information is interpreted correctly. 
+# This code is from lab 9, question 8. I originally labelled each facet as "Sample Size of _" instead of "_ Simulated Means." I realize now that the plot is showing the distributions of simulated means from each of the simualtions, not the distribution of means based on sample size. It is important that I accurately label my facets to avoid misleading viewers, ensuring the data and information is interpreted correctly. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
 
 ```
 
@@ -1195,7 +1231,7 @@ ggplot(data = teacher_evals_compare,
   theme(legend.position = "none") 
 
 
-# This code is from challenge 3, question 2.
+# This code is from challenge 3, question 2. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
 
 ```
 
@@ -1228,8 +1264,7 @@ ggplot(data = teacher_evals_compare,
             ) +
   theme(legend.position = "none") 
 
-# This code is from challenge 3, question 2.
-
+# This code is from challenge 3, question 2. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
 
 ```
 
@@ -1314,7 +1349,7 @@ all_simulations |>
             )
 
 
-# This code is from lab 9, question 7.
+# This code is from lab 9, question 7. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
 
 
 ```
@@ -1391,7 +1426,7 @@ all_simulations |>
             locations = cells_body()
             )
 
-# This code is from lab 9, question 7. I originally labeled the title "Simulated Means By Sample Size" instead of "Simulated Mean of Means By Sample Size" and each column, "Simulated Mean of __" instead of "Simulated Mean of __ Means." I now realize that this is not the simulated means but the simulated means of means. It is important that I correctly label all aspects of my table to ensure viewers correctly interpret my table and there are no misunderstandings about what the data represents. 
+# This code is from lab 9, question 7. I originally labeled the title "Simulated Means By Sample Size" instead of "Simulated Mean of Means By Sample Size" and each column, "Simulated Mean of __" instead of "Simulated Mean of __ Means." I now realize that this is not the simulated means but the simulated means of means. It is important that I correctly label all aspects of my table to ensure viewers correctly interpret my table and there are no misunderstandings about what the data represents. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
 
 
 ```
@@ -1445,7 +1480,7 @@ rotate_proportions <- random_babies_table |>
             ) |>
   print()
  
-# This code is from lab 9, question 2. I originally used the names_prefix() function to add a prefix to the names of my columns, but these names were not the strongest names to describe the context of the columns. Instead, I used the rename() function to add stronger descriptive names for each column. Originally, I also included both the counts and proportions. I removed the counts as this was unnecessary and redundant.  
+# This code is from lab 9, question 2. I originally used the names_prefix() function to add a prefix to the names of my columns, but these names were not the strongest names to describe the context of the columns. Instead, I used the rename() function to add stronger descriptive names for each column. Originally, I also included both the counts and proportions. I removed the counts as this was unnecessary and redundant. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors.  
 
 ```
 
@@ -1500,7 +1535,7 @@ rotate_proportions <- random_babies_table |>
             ) |>
   print()
  
-# This code is from lab 9, question 2. I originally used the names_prefix() function to add a prefix to the names of my columns, but these names were not the strongest names to describe the context of the columns. Instead, I used the rename() function to add stronger descriptive names for each column. Originally, I also included both the counts and proportions. I removed the counts as this was unnecessary and redundant.  
+# This code is from lab 9, question 2. I originally used the names_prefix() function to add a prefix to the names of my columns, but these names were not the strongest names to describe the context of the columns. Instead, I used the rename() function to add stronger descriptive names for each column. Originally, I also included both the counts and proportions. I removed the counts as this was unnecessary and redundant. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors.   
 
 
 ```
@@ -1545,7 +1580,7 @@ all_simulations |>
             locations = cells_body()
             )
 
-# This code is from lab 9, question 7. I originally labeled the title "Simulated Means By Sample Size" instead of "Simulated Mean of Means By Sample Size" and each column, "Simulated Mean of __" instead of "Simulated Mean of __ Means." I now realize that this is not the simulated means but the simulated means of means. It is important that I correctly label all aspects of my table to ensure viewers correctly interpret my table and there are no misunderstandings about what the data represents. 
+# This code is from lab 9, question 7. I originally labeled the title "Simulated Means By Sample Size" instead of "Simulated Mean of Means By Sample Size" and each column, "Simulated Mean of __" instead of "Simulated Mean of __ Means." I now realize that this is not the simulated means but the simulated means of means. It is important that I correctly label all aspects of my table to ensure viewers correctly interpret my table and there are no misunderstandings about what the data represents. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
 
 ```
 
@@ -1638,14 +1673,50 @@ rescale_01 <- function(x) {
 ```{r}
 #| label: pe-2-2
 
- map_chr_func <- function(df){
+map_chr_func <- function(df){
   typ <- map_chr(df,
                  class
                  )
-  return(typ)
+  tibble(
+    Variable = names(df),
+    Type = typ
+    ) |> 
+      pivot_wider(names_from = Variable, 
+                  values_from = Type
+                  )
+  
  }
+ 
+evals_1 <- map_chr_func(evals) |> 
+  rename("Course ID" = "course_id", 
+         "Teacher ID" = "teacher_id", 
+         "Question Number" = "question_no",
+         "Number of Participants" = "no_participants", 
+         "Response Rate" = "resp_share", 
+          "SET Score Average" = "SET_score_avg",
+         "Student Grade Average" = "stud_grade_avg", 
+         "Student Grade Standard Deviation" = "stud_grade_std",
+         "Student Grade Variance Coefficient" = "stud_grade_var_coef", 
+         "Percent Failed" = "percent_failed", 
+         "Current Semester Student Grade Average" = "stud_grade_avg_cur", 
+         "Current Semester Student Grade Standard Deviation" = "stud_grade_std_cur", 
+         "Current Semester Student Grade Variance Coefficient" = "stud_grade_var_coef_cur", 
+         "Current Semester Perecent Failed" = "percent_failed_cur",
+         "Class Duration" = "class_duration", 
+         "Weekday" = "weekday", 
+         "Time of Day" = "time_of_day", 
+         "SET Score of Teacher in Previous Semester" = "SET_score_1sem", 
+         "Maximum Score" = "maximum_score", 
+         "Academic Degree" = "academic_degree", 
+         "Seniority" = "seniority", 
+         "Gender" = "sex"
+         ) |>
+  knitr::kable() |>
+  kableExtra::kable_styling(font_size = 15) |>
+  print()
 
-# This code is from lab 8, question 1. 
+
+# This code is from lab 8, question 1. Originally, I used the tibble() function outside of my function. While this worked, this could lead to redundancy, as I would have to rewrite the tibble() function everytime I wanted to create a tibble with the map_chr_func() function. By implemneting the tibble() function directly in my map_chr_func() function, I improved the efficiency and readaiblity of my code. This change can help prevent errors with manually rewriting the same code and creates a reusable function.  
 
 ```
 
@@ -1679,18 +1750,50 @@ rescale_column <- function(Df, cols) {
 ```{r}
 #| label: pe-3-map-1
 
-tibble(Variable = names(fish), 
-       Missing = map_int(fish, 
-                         ~ sum(is.na(.x)
-                               )
-                         )
-       ) |> 
-  rename(`Missing Amount` = Missing, 
-         `Fish Attributes` = Variable) |>
+map_chr_func <- function(df){
+  typ <- map_chr(df,
+                 class
+                 )
+  tibble(
+    Variable = names(df),
+    Type = typ
+    ) |> 
+      pivot_wider(names_from = Variable, 
+                  values_from = Type
+                  )
+  
+ }
+ 
+evals_1 <- map_chr_func(evals) |> 
+  rename("Course ID" = "course_id", 
+         "Teacher ID" = "teacher_id", 
+         "Question Number" = "question_no",
+         "Number of Participants" = "no_participants", 
+         "Response Rate" = "resp_share", 
+          "SET Score Average" = "SET_score_avg",
+         "Student Grade Average" = "stud_grade_avg", 
+         "Student Grade Standard Deviation" = "stud_grade_std",
+         "Student Grade Variance Coefficient" = "stud_grade_var_coef", 
+         "Percent Failed" = "percent_failed", 
+         "Current Semester Student Grade Average" = "stud_grade_avg_cur", 
+         "Current Semester Student Grade Standard Deviation" = "stud_grade_std_cur", 
+         "Current Semester Student Grade Variance Coefficient" = "stud_grade_var_coef_cur", 
+         "Current Semester Perecent Failed" = "percent_failed_cur",
+         "Class Duration" = "class_duration", 
+         "Weekday" = "weekday", 
+         "Time of Day" = "time_of_day", 
+         "SET Score of Teacher in Previous Semester" = "SET_score_1sem", 
+         "Maximum Score" = "maximum_score", 
+         "Academic Degree" = "academic_degree", 
+         "Seniority" = "seniority", 
+         "Gender" = "sex"
+         ) |>
   knitr::kable() |>
-  kableExtra::kable_styling(font_size = 15)
+  kableExtra::kable_styling(font_size = 15) |>
+  print()
 
-# This code is from lab 8, question 4.
+
+# This code is from lab 8, question 1. Originally, I used the tibble() function outside of my function. While this worked, this could lead to redundancy, as I would have to rewrite the tibble() function everytime I wanted to create a tibble with the map_chr_func() function. By implemneting the tibble() function directly in my map_chr_func() function, I improved the efficiency and readaiblity of my code. This change can help prevent errors with manually rewriting the same code and creates a reusable function.  
 
 ```
 
@@ -1945,7 +2048,7 @@ summary(species_mod)
 
 <!-- For the revisions included in your Portfolio, to help me understand the nature of your revisions, please denote somehow the feedback I provided you (e.g., boldface, italics, colored text) before your revisions. -->
 
-After receiving feedback on each lab, I have submitted revisions with reflections, dedicating significant time to understanding my mistakes, correcting them, and enhancing the efficiency of my code. As someone without much coding experience prior to this course, learning how to use R has been a constructively challenging experience. Working through lab assignments has provided me with the opportunity to struggle through material, enhancing my critical thinking as well as my tangible coding skills. Then, through feedback, I have learned where I was not fully grasping a concept or where I could make my code more efficient. With this feedback, I was able to explore the content more deeply and consider other approaches to coding specific problems. 
+After receiving feedback on each lab, I submitted revisions with reflections for all labs where revisions were accepted, dedicating significant time to understanding my mistakes, correcting them, and enhancing the efficiency of my code. As someone without much coding experience prior to this course, learning how to use R has been a constructively challenging experience. Working through lab assignments has provided me with the opportunity to struggle through material, enhancing my critical thinking and my tangible coding skills. Then, through feedback, I have learned where I was not fully grasping a concept or where I could make my code more efficient. With this feedback, I was able to explore the content more deeply and consider other approaches to coding specific problems. 
 
 For each problem I received a growing on or problems where I received a success but received feedback, when I completed my revision and reflection, I truly sat with the material, considering the importance of the changes I was implementing.  I made sure to consider and explain why it was important to fix or include what I added in my revision. For example, in lab 3, I initially saved unnecessary objects or created new data frames and did not display the results of my code in the quarto document. I did not originally see this as an issue when working on the lab assignment. However, once I received feedback on this aspect of my lab, I became aware of the issue in my lab. I realized I needed to consider when it is necessary and beneficial to save objects and create data frames and when it is unnecessary, a concept I had not considered before. I also realized that my reader was unable to see the results of my code often. I then considered and reflected on the fact that I was not providing the necessary information to the reader of my quarto document for them to be able to understand and follow my lab. Through reflections like these, I gained insight into efficient coding practices and ensuring my coding serves its intended and appropriate purpose.
 
