@@ -13,7 +13,9 @@ execute:
 
 [**My Grade:**]{.underline} I believe my grade equivalent to course work evidenced below to be an A.
 
-[**Learning Objective Evidence:**]{.underline} In the code chunks below, provide code from Lab or Challenge assignments where you believe you have demonstrated proficiency with the specified learning target. Be sure to specify **where** the code came from (e.g., Lab 4 Question 2).
+[**Learning Objective Evidence:**]{.underline} In the code chunks below, provide code from Lab or Challenge assignments where you believe you have demonstrated proficiency with the specified learning target. Be sure to specify **where** the code came from (e.g., Lab 4 Question 2)
+
+*Note: For changes to labs 8 and 9, where revisions were not accepted, revisions made for my portfolio are denoted by italics.*
 
 ## Working with Data
 
@@ -21,40 +23,55 @@ execute:
 
 -   `csv`
 
+This code is from lab 2, question 1.
+
 ```{r}
 #| label: wd-1-csv
 
-surveys <- read_csv(here("data", "surveys.csv"))
-
-# This code is from lab 2, question 1.
+surveys <- read_csv(here("data",
+                         "surveys.csv"
+                         )
+                    )
 
 ```
 
 -   `xlsx`
 
+This code is from Check-in 2.3.
+
 ```{r}
 #| label: wd-1-xlsx
 
-agesxl <- read_xlsx(path = here::here("check-ins", "2.1-loading-data", "Ages_Data", "ages.xlsx"), sheet = "ages")
+agesxl <- read_xlsx(path = here::here("check-ins",
+                                      "2.1-loading-data",
+                                      "Ages_Data",
+                                      "ages.xlsx"
+                                      ), 
+                    sheet = "ages"
+                    )
 
-# This code is from Check-in 2.3.
 
 ```
 
 -   `txt`
 
+This code is from Check-in 2.3.
+
 ```{r}
 #| label: wd-1-txt
 
-ages_tab <- read_table(file = here::here("Week 2", "Check-ins", "Ages_Data", "ages_tab.txt"))
-
-
-# This code is from Check-in 2.3.
-
+ages_tab <- read_table(file = here::here("Week 2",
+                                         "Check-ins",
+                                         "Ages_Data",
+                                         "ages_tab.txt"
+                                         )
+                       )
 
 ```
 
 **WD-2: I can select necessary columns from a dataset.**
+
+This code is from lab 3, question 5.
 
 ```{r}
 #| label: wd-2
@@ -75,13 +92,13 @@ teacher_evals_clean <- teacher_evals |>
          sex
         )
 
-# This code is from lab 3, question 5.
-
 ```
 
 **WD-3: I can filter rows from a dataframe for a *variety* of data types (e.g., numeric, integer, character, factor, date).**
 
 -   numeric
+
+This code is from lab 3, question 5.
 
 ```{r}
 #| label: wd-3-numeric
@@ -102,11 +119,11 @@ teacher_evals_clean <- teacher_evals |>
          sex
         )
 
-# This code is from lab 3, question 5.
-
 ```
 
 -   character -- specifically a string (example must use functions from **stringr**)
+
+This code is from lab 5, section 2: Finding Witnesses.
 
 ```{r}
 #| label: wd-3-string
@@ -126,11 +143,11 @@ witnesses <- bind_rows(person |>
           )
   )
 
-# This code is from lab 5, section 2: Finding Witnesses.
-
 ```
 
 -   factor
+
+This code is from lab 4, question 2.
 
 ```{r}
 #| label: wd-3-factor
@@ -141,11 +158,11 @@ ca_childcare <- counties |>
              by = "county_fips_code"
              )
 
-# This code is from lab 4, question 2.
-
 ```
 
 -   date (example must use functions from **lubridate**)
+
+This code is from lab 5, section 6: Finding Person Responsible.
 
 ```{r}
 #| label: wd-3-date
@@ -174,14 +191,13 @@ suspect <- person |>
   filter(event_name == 3) |>
   print()
 
-
-# This code is from lab 5, section 6: Finding Person Responsible.
-
 ```
 
 **WD-4: I can modify existing variables and create new variables in a dataframe for a *variety* of data types (e.g., numeric, integer, character, factor, date).**
 
 -   numeric (using `as.numeric()` is not sufficient)
+
+This code is from challenge 3, question 1.
 
 ```{r}
 #| label: wd-4-numeric
@@ -203,11 +219,11 @@ teacher_evals |>
          sen_level
          )
 
-# This code is from challenge 3, question 1.
-
 ```
 
 -   character -- specifically a string (example must use functions from **stringr**)
+
+This code is from lab 5, section 2: Finding Witnesses.
 
 ```{r}
 #| label: wd-4-string
@@ -226,18 +242,21 @@ witnesses <- bind_rows(person |>
          is_annabel
           )
   )
-      
-# This code is from lab 5, section 2: Finding Witnesses.
 
 ```
 
 -   factor (example must use functions from **forcats**)
 
+This code is from lab 4, question 3.
+
 ```{r}
 #| label: wd-4-factor
 
 ca_childcare <- ca_childcare |> 
- mutate(county_name = str_remove(county_name, " County")) |>
+ mutate(county_name = str_remove(county_name,
+                                 " County"
+                                 )
+        ) |>
   mutate(region = fct_collapse(county_name,
                                "Superior California" = c("Butte",
                                                          "Colusa",
@@ -306,11 +325,11 @@ ca_childcare <- ca_childcare |>
                                )
          ) 
 
-# This code is from lab 4, question 3.
-
 ```
 
 -   date (example must use functions from **lubridate**)
+
+This code is from lab 5, section 6: Finding Person Responsible.
 
 ```{r}
 #| label: wd-4-date
@@ -339,14 +358,13 @@ suspect <- person |>
   filter(event_name == 3) |>
   print()
 
-
-# This code is from lab 5, section 6: Finding Person Responsible.
-
 ```
 
 **WD-5: I can use mutating joins to combine multiple dataframes.**
 
 -   `left_join()`
+
+This code is from lab 5, section 4: Using Witness's Clues. Although using the inner_join() function would be more efficient, using the left_join() function still achieves the same result. The inner_join() function is more effective because it retain rows where there is a match between the keys in both data sets. When using the left_join() function, all of the rows from the left dataset are kept, meaning that if there are unmatched rows in the right data set, there will be rows with NA cells. This leads the resulting joined dataset to potentially have irrelevant observations and be less clean than if the inner_join() function was used.
 
 ```{r}
 #| label: wd-5-left
@@ -376,11 +394,11 @@ get_fit_now_member |>
                   )
           )
 
-# This code is from lab 5, section 4: Using Witness's Clues. Although using the inner_join() function would be more efficient, using the left_join() function still achieves the same result. The inner_join() function is more effective because it retain rows where there is a match between the keys in both datasets. When using the left_join() function, all of the rows from the left dataset are kept, meaning that if there are unmatched rows in the right dataset, there will be rows with NA cells. This leads the resulting joined dataset to potentially have irrelevant observations and be less clean than if the inner_join() function was used.
-
 ```
 
 -   `right_join()`
+
+This code is from lab 4, question 2.
 
 ```{r}
 #| label: wd-5-right
@@ -391,11 +409,11 @@ ca_childcare <- counties |>
              by = "county_fips_code"
              )
 
-# This code is from lab 4, question 2.
-
 ```
 
 -   `inner_join()`
+
+This code is from lab 5, section 4: Using Witness's Clues. I originally used left_join(), which works to combine the data sets, but includes NA's when the second data set does not have a matching row. For this task, using the inner_join() function is more effective because it only retains rows with matching data, aligning better with the goal of this task to narrow down the data sets to a single row based on the specified factors in the code.
 
 ```{r}
 #| label: wd-5-inner
@@ -425,14 +443,13 @@ get_fit_now_member |>
                   )
           )
 
-
-# This code is from lab 5, section 4: Using Witness's Clues. I originally used left_join(), which works to combine the data sets, but includes NA's when the second dataset does not have a matching row. For this task, using the inner_join() function is more effective because it only retains rows with matching data, aligning better with the goal of this task to narrow down the datasets to a single row based on the specified factors in the code. 
-
 ```
 
 **WD-6: I can use filtering joins to filter rows from a dataframe.**
 
 -   `semi_join()`
+
+This code is from lab 5, section 3: Examining Witness Interviews.
 
 ```{r}
 #| label: wd-6-semi
@@ -442,17 +459,20 @@ interview |>
             by = c("person_id" = "id")
             )
 
-# This code is from lab 5, section 3: Examining Witness Interviews.
-
 ```
 
 -   `anti_join()`
+
+This code is from lab 3, question 12. I originally used the filter() function in my original code to filter to include specific academic degrees. To utilize the anti_join() function, I created a tibble which included the two academic degrees that I did not want to have in my average responses. Then, I used the anti_join to join the teacher_evals_clean data set with the degrees_not data set to filter to only include academic degrees that do not have matches in the degrees_not data set.
 
 ```{r}
 #| label: wd-6-anti
 
 
-degrees_not <- tibble(academic_degree = c("no_dgr", "ma"))
+degrees_not <- tibble(academic_degree = c("no_dgr",
+                                          "ma"
+                                          )
+                      )
 
 teacher_evals_clean |> 
   anti_join(degrees_not,
@@ -475,14 +495,13 @@ teacher_evals_clean |>
            ) |>
   print()
 
-# This code is from lab 3, question 12. I originally used the filter() function in my original code to filter to include specific academic degrees. To utilize the anti_join() function, I created a tibble which included the two academic degrees that I did not want to have in my average responses. Then, I used the anti_join to join the teacher_evals_clean data set with the degrees_not data set to filter to only include academic degrees that do not have matches in the degrees_not data set. 
-
-
 ```
 
 **WD-7: I can pivot dataframes from long to wide and visa versa**
 
 -   `pivot_longer()`
+
+This code is from lab 4, question 6.
 
 ```{r}
 #| label: wd-7-long
@@ -490,7 +509,10 @@ teacher_evals_clean |>
 library(scales)
 library(RColorBrewer)
 
-custom <-colorRampPalette(brewer.pal(8, "Accent"))(10)
+custom <-colorRampPalette(brewer.pal(8,
+                                     "Accent"
+                                     )
+                          )(10)
 
 ca_childcare |>
   select(study_year,
@@ -555,12 +577,11 @@ ca_childcare |>
         title = element_text(size = 8)
         )
 
-
-# This code is from lab 4, question 6.
-
 ```
 
 -   `pivot_wider()`
+
+This code is from lab 4, question 4.
 
 ```{r}
 #| label: wd-7-wide
@@ -587,28 +608,30 @@ mhi_region <- ca_childcare |>
   rename("Region" = region) |>
   print()
 
-# This code is from lab 4, question 4. 
-
 ```
 
 ## Reproducibility
 
 **R-1: I can create professional looking, reproducible analyses using RStudio projects, Quarto documents, and the here package.**
 
-I've done this in the following provided assignments:
+I have done this in the following provided assignments:
 
-I have demonstrated this learning target throughout my lab assignments this quarter. Firstly, in the YAML of my quarto documents, I have incorporated various features to my rendered document such as code-folding and embedding resources, enhancing the professionalism of my rendered quarto documents. Secondly, I have made a conscious effort to write tidy code, adhering to the tidyverse style guidelines, using named arguments, and starting new lines after commas, plus signs, and pipe operators. Additionally, I have been thoughtful to ensure that my code is efficient, specifically using one function to perform multiple operations and calculating multiple summary statistics by using functions such as the summarize and across functions. One lab I am particularly proud of for its professional appearance is lab 5. In this lab, I formatted my own quarto document and included section headers to make clear sections for the viewer to be able to easily follow along. Lastly, I have learned how to use and implement the here function into my projects to load in data of various formats including csv, xlsx, and txt files.
+I have demonstrated this learning target in my lab assignments throughout this quarter. Firstly, in the YAML of my quarto documents, I have incorporated various features to my rendered document such as code-folding and embedding resources, enhancing the professionalism of my rendered quarto documents. One lab I am particularly proud of for its professional appearance is lab 5. In this lab, I formatted my own quarto document and included section headers to make clear sections for the viewer to be able to easily follow. Secondly, I have made a conscious effort to write tidy code, adhering to the tidyverse style guidelines, using named arguments, and starting new lines after commas, plus signs, and pipe operators. Additionally, I have been thoughtful to ensure that my code is efficient, specifically using one function to perform multiple operations and calculating multiple summary statistics by using functions such as the summarize and across functions. Lastly, I have learned how to use and implement the here function into my projects to load in data of various formats including csv, xlsx, and txt files.
 
 **R-2: I can write well documented and tidy code.**
 
 -   Example of **ggplot2** plotting
+
+This code is from challenge 3, question 2. I used the website, <https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3>, for my colors.
 
 ```{r}
 #| label: r-2-1
 
 # Initializing a plot using the dataset, teacher_evals_compare, with seniority level mapped to the x axis and SET level mapped to fill color. 
 ggplot(data = teacher_evals_compare, 
-       mapping = aes(x = sen_level, fill = SET_level)
+       mapping = aes(x = sen_level,
+                     fill = SET_level
+                     )
        ) +
 # Creating a stacked barplot to count observations
   geom_bar(stat = "count",
@@ -627,7 +650,6 @@ ggplot(data = teacher_evals_compare,
        title = "Number of Sections"
        ) +
 # Adding annotations on the bars to display the count of each SET_level category
-
   geom_text(stat = "count", 
             mapping = aes(label = SET_level),     
             color = "white",                
@@ -637,11 +659,11 @@ ggplot(data = teacher_evals_compare,
 # Removes legend from visualization
   theme(legend.position = "none") 
 
-# This code is from challenge 3, question 2. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
-
 ```
 
 -   Example of **dplyr** pipeline
+
+This code is from lab 4, question 4.
 
 ```{r}
 #| label: r-2-2
@@ -659,7 +681,9 @@ mhi_region <- ca_childcare |>
                            )
          ) |> 
 # Grouping the data by region and study_year 
-  group_by(region, study_year) |>
+  group_by(region,
+           study_year
+           ) |>
 # Calculating the median household income for each region in 2008 and 2018  
   summarize(median_household_income = median(mhi_2018),
             .groups = "drop") |>
@@ -667,7 +691,8 @@ mhi_region <- ca_childcare |>
   pivot_wider(names_from = study_year,
               values_from = median_household_income,
               # Adding a prefix to new columns for clarity 
-              names_prefix = "Median Household Income in ") |>  
+              names_prefix = "Median Household Income in "
+              ) |>  
 # Arranging the rows in descending order of median household income for 2008 and 2018
   arrange(desc(`Median Household Income in 2008`), 
           desc(`Median Household Income in 2018`)
@@ -677,11 +702,11 @@ mhi_region <- ca_childcare |>
 # Printing the final table 
   print()
 
-# This code is from lab 4, question 4.
-
 ```
 
 -   Example of function formatting
+
+This code is from lab 7, question 4.
 
 ```{r}
 #| label: r-2-3
@@ -701,13 +726,13 @@ rescale_01 <- function(x) {
   (x - range_1[1]) / (range_1[2] - range_1[1])
 }
 
-# This code is from lab 7, question 4.
-
 ```
 
 **R-3: I can write robust programs that are resistant to changes in inputs.**
 
 -   Example -- any context
+
+This code is from lab 5, section 3: Examining Witness Interviews.
 
 ```{r}
 #| label: r-3-example
@@ -718,11 +743,11 @@ person |>
             n = 1
             )
 
-# This code is from lab 5, section 3: Examining Witness Interviews.
-
 ```
 
 -   Example of function stops
+
+This code is from lab 7, question 4.
 
 ```{r}
 #| label: r-3-function-stops
@@ -736,8 +761,6 @@ rescale_01 <- function(x) {
   (x - range_1[1]) / (range_1[2] - range_1[1])
 }
 
-# This code is from lab 7, question 4.
-
 ```
 
 ## Data Visualization & Summarization
@@ -745,6 +768,8 @@ rescale_01 <- function(x) {
 **DVS-1: I can create visualizations for a *variety* of variable types (e.g., numeric, character, factor, date)**
 
 -   at least two numeric variables
+
+This code is from lab 2, question 4.
 
 ```{r}
 #| label: dvs-1-num
@@ -758,16 +783,15 @@ ggplot(data = surveys,
   facet_wrap(~species) +
   labs(x = "Weight of Rodent (in grams)",
        y = "",
-       title = "Relationship Between Body Weight and Hindfoot
-Length Across Different Rodent Species", 
+       title = "Relationship Between Body Weight and Hindfoot Length Across Different Rodent Species", 
       subtitle = "Length of Hindfoot (in mm)"
        )
-
-# This code is from lab 2, question 4.
 
 ```
 
 -   at least one numeric variable and one categorical variable
+
+This code is from lab 2, question 4.
 
 ```{r}
 #| label: dvs-2-num-cat
@@ -782,23 +806,23 @@ ggplot(data = surveys,
   facet_wrap(~species) +
   labs(x = "Weight of Rodent (in grams)",
        y = "",
-       title = "Relationship Between Body Weight and Hindfoot
-Length Across Different Rodent Species", 
+       title = "Relationship Between Body Weight and Hindfoot Length Across Different Rodent Species", 
       subtitle = "Length of Hindfoot (in mm)"
        )
-
-# This code is from lab 2, question 4.
-
 
 ```
 
 -   at least two categorical variables
 
+This code is from challenge 3, question 2. I used the website, <https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3>, for my colors.
+
 ```{r}
 #| label: dvs-2-cat
 
 ggplot(data = teacher_evals_compare, 
-       mapping = aes(x = sen_level, fill = SET_level)
+       mapping = aes(x = sen_level,
+                     fill = SET_level
+                     )
        ) +
   geom_bar(stat = "count",
            position = "stack"
@@ -821,12 +845,11 @@ ggplot(data = teacher_evals_compare,
             ) +
   theme(legend.position = "none") 
 
-
-# This code is from challenge 3, question 2. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
-
 ```
 
 -   dates (timeseries plot)
+
+This code is from lab 4, question 6.
 
 ```{r}
 #| label: dvs-2-date
@@ -834,7 +857,10 @@ ggplot(data = teacher_evals_compare,
 library(scales)
 library(RColorBrewer)
 
-custom <-colorRampPalette(brewer.pal(8, "Accent"))(10)
+custom <-colorRampPalette(brewer.pal(8,
+                                     "Accent"
+                                     )
+                          )(10)
 
 ca_childcare |>
   select(study_year,
@@ -899,14 +925,13 @@ ca_childcare |>
         title = element_text(size = 8)
         )
 
-# This code is from lab 4, question 6.
-
-
 ```
 
 **DVS-2: I use plot modifications to make my visualization clear to the reader.**
 
 -   I can ensure people don't tilt their head
+
+This code is from lab 2, question 4.
 
 ```{r}
 #| label: dvs-2-1
@@ -925,19 +950,23 @@ ggplot(data = surveys,
        subtitle = "Length of Hindfoot (in mm)"
        )
 
-# This code is from lab 2, question 4. 
-
 ```
 
 -   I can modify the text in my plot to be more readable
 
+The first code chunk is from lab 4, question 6. The second code chunk is from lab 4, question 7.
+
 ```{r}
 #| label: dvs-2-2
 
+# Code 1
 library(scales)
 library(RColorBrewer)
 
-custom <-colorRampPalette(brewer.pal(8, "Accent"))(10)
+custom <-colorRampPalette(brewer.pal(8,
+                                     "Accent"
+                                     )
+                          )(10)
 
 ca_childcare |>
   select(study_year,
@@ -1002,7 +1031,7 @@ ca_childcare |>
         title = element_text(size = 8)
         )
 
-# This is from lab 4, question 6.
+# Code 2 
 
 ggplot(data = ca_childcare, 
        mapping = aes(x = mhi_2018, 
@@ -1021,11 +1050,11 @@ ggplot(data = ca_childcare,
   scale_x_continuous(labels = label_dollar()) +
   scale_y_continuous(labels = label_dollar())
 
-# This code is from lab 4, question 7.
-
 ```
 
 -   I can reorder my legend to align with the colors in my plot
+
+This code is from lab 4, question 6.
 
 ```{r}
 #| label: dvs-2-3
@@ -1033,7 +1062,10 @@ ggplot(data = ca_childcare,
 library(scales)
 library(RColorBrewer)
 
-custom <-colorRampPalette(brewer.pal(8, "Accent"))(10)
+custom <-colorRampPalette(brewer.pal(8,
+                                     "Accent"
+                                     )
+                          )(10)
 
 ca_childcare |>
   select(study_year,
@@ -1098,21 +1130,22 @@ ca_childcare |>
         title = element_text(size = 8)
         )
 
-# This code is from lab 4, question 6. 
-
 ```
 
 **DVS-3: I show creativity in my visualizations**
 
 -   I can use non-standard colors
 
+The first code chunk is from challenge 2, spicy. I used the website, <https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3>, for my colors. The second code chunk is from lab 9, question 8. I also used <https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3> to get my colors for this visualization. *I originally labelled each facet as "Sample Size of \_" instead of " \_ Simulated Means." I realize now that the plot is showing the distributions of simulated means from each of the simulations, not the distribution of means based on sample size. It is important that I accurately label my facets to avoid misleading viewers, ensuring the data and information is interpreted correctly.*
+
 ```{r}
 #| label: dvs-3-1
 
+# Code 1
+
 library(ggridges)
 
-
-  ggplot(data = surveys, 
+ggplot(data = surveys, 
        mapping = aes(x = weight,
         y = species, 
         stat = "density_ridges",
@@ -1142,8 +1175,40 @@ library(ggridges)
                               )
                    ) +
     theme(legend.position = "none")
-  
-# This code is from challenge 2, spicy. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
+
+# Code 2 
+
+ggplot(data = all_simulations,
+         mapping = aes(x = simulated_means)
+         ) + 
+geom_histogram(color = "#756bb1",
+                 fill = "#bcbddc"
+                 ) + 
+facet_wrap(~ n, 
+             scales = "free_y", 
+           labeller = labeller(n = c("10" = "10 Simulated Means", 
+                                     "100" = "100 Simulated Means", 
+                                     "1000" = "1,000 Simulated Means",
+                                     "10000" = "10,000 Simulated Means"
+                                     )
+                               )
+             ) +
+labs(title = "Distribution of Simulated Means by Simulation Sizes", 
+       y = "", 
+       x = "Simulated Mean",
+       subtitle = "Frequency"
+       ) +
+theme_bw() + 
+theme_minimal()
+
+```
+
+-   I can use annotations
+
+This code is from challenge 3, question 2. I used the website, <https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3>, for my colors.
+
+```{r}
+#| label: dvs-3-2
 
 ggplot(data = teacher_evals_compare, 
        mapping = aes(x = sen_level,
@@ -1171,77 +1236,21 @@ ggplot(data = teacher_evals_compare,
             ) +
   theme(legend.position = "none") 
 
-# This code is from challenge 3, question 2. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
-
-
-ggplot(data = all_simulations,
-         mapping = aes(x = simulated_means)
-         ) + 
-geom_histogram(color = "#756bb1",
-                 fill = "#bcbddc"
-                 ) + 
-facet_wrap(~ n, 
-             scales = "free_y", 
-           labeller = labeller(n = c("10" = "10 Simulated Means", 
-                                     "100" = "100 Simulated Means", 
-                                     "1000" = "1,000 Simulated Means",
-                                     "10000" = "10,000 Simulated Means"
-                                     )
-                               )
-             ) +
-labs(title = "Distribution of Simulated Means by Simulation Sizes", 
-       y = "", 
-       x = "Simulated Mean",
-       subtitle = "Frequency"
-       ) +
-theme_bw() + 
-theme_minimal()
-
-# This code is from lab 9, question 8. I originally labelled each facet as "Sample Size of _" instead of "_ Simulated Means." I realize now that the plot is showing the distributions of simulated means from each of the simualtions, not the distribution of means based on sample size. It is important that I accurately label my facets to avoid misleading viewers, ensuring the data and information is interpreted correctly. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
-
-```
-
--   I can use annotations
-
-```{r}
-#| label: dvs-3-2
-
-ggplot(data = teacher_evals_compare, 
-       mapping = aes(x = sen_level, fill = SET_level)
-       ) +
-  geom_bar(stat = "count",
-           position = "stack"
-           ) + 
-  scale_fill_manual(values = c("#c51b8a",
-                               "#fa9fb5"
-                               )
-                    ) +
-  theme_bw() +
-  labs(x = "Seniority of Instructor", 
-       y = "", 
-       title = "Number of Sections", 
-       fill = "SET Level"
-       ) +
-  geom_text(stat = "count", 
-            mapping = aes(label = SET_level),     
-            color = "white",                
-            size = 3, 
-            vjust = 2
-            ) +
-  theme(legend.position = "none") 
-
-
-# This code is from challenge 3, question 2. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
-
 ```
 
 -   I can be creative...
 
+The first code is from challenge 3, question 2. I used the website, <https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3>, for my colors. The second code chunk is from challenge 2, spicy. I used the website, <https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3>, for my colors.
+
 ```{r}
 #| label: dvs-3-3
 
+# Code 1
+
 ggplot(data = teacher_evals_compare, 
-       mapping = aes(x = sen_level, fill = SET_level)
+       mapping = aes(x = sen_level,
+                     fill = SET_level
+                     )
        ) +
   geom_bar(stat = "count",
            position = "stack"
@@ -1264,13 +1273,48 @@ ggplot(data = teacher_evals_compare,
             ) +
   theme(legend.position = "none") 
 
-# This code is from challenge 3, question 2. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
+# Code 2
+
+library(ggridges)
+
+ggplot(data = surveys, 
+       mapping = aes(x = weight,
+        y = species, 
+        stat = "density_ridges",
+        position = "points_sina",
+        fill = species
+                    )
+       ) +
+  geom_density_ridges() + 
+  labs(x = "Weight (in grams)" , 
+     y = "", 
+     subtitle = "Species of Rodents",
+     title = "Density Ridge Plots of Weights of Various Rodent Species") +
+ scale_fill_manual(values = c("torridus" = "#c51b8a", 
+                              "spectabilis" = "#fa9fb5", 
+                              "penicillatus" = "#f03b20", 
+                              "ordii" = "#feb24c", 
+                              "merriami" = "#fff7bc", 
+                              "megalotis" = "#edf8b1",
+                              "maniculatus" =  "#a1d99b",
+                              "leucogaster" = "#e5f5f9", 
+                              "hispidus" = "#7fcdbb", 
+                              "fulvescens" = "#2b8cbe", 
+                              "flavus" = "#e7e1ef", 
+                              "eremicus" = "#bcbddc", 
+                              "baileyi" = "#756bb1", 
+                              "albigula" = "#8856a7"
+                              )
+                   ) +
+    theme(legend.position = "none")
 
 ```
 
 **DVS-4: I can calculate numerical summaries of variables.**
 
 -   Example using `summarize()`
+
+This code is from lab 3, question 6.
 
 ```{r}
 #| label: dvs-4-summarize
@@ -1280,11 +1324,11 @@ teacher_evals_clean |>
             instructors = n_distinct(teacher_id)
             )
 
-# This code is from lab 3, question 6. 
-
 ```
 
 -   Example using `across()`
+
+This code is from lab 7, question 1.
 
 ```{r}
 #| label: dvs-4-across
@@ -1302,13 +1346,13 @@ missing_values <- fish |>
     ) |>
   print()
 
-# This code is from lab 7, question 1
-
 ```
 
 **DVS-5: I can find summaries of variables across multiple groups.**
 
 -   Example 1
+
+This code is from lab 9, question 7. I used the website, <https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3>, for my colors. *I originally labeled the title "Simulated Means By Sample Size" instead of "Simulated Mean of Means By Sample Size" and each column, "Simulated Mean of \_ " instead of "Simulated Mean of \_ Means." I now realize that this is not the simulated means but the simulated means of means. It is important that I correctly label all aspects of my table to ensure viewers correctly interpret my table and there are no misunderstandings about what the data represents.*
 
 ```{r}
 #| label: dvs-5-1
@@ -1348,13 +1392,11 @@ all_simulations |>
             locations = cells_body()
             )
 
-
-# This code is from lab 9, question 7. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
-
-
 ```
 
 -   Example 2
+
+This code is from lab 4, question 4
 
 ```{r}
 #| label: dvs-5-2
@@ -1380,13 +1422,13 @@ mhi_region <- ca_childcare |>
   rename("Region" = region) |>
   print()
 
-# This code is from lab 4, question 4
-
 ```
 
 **DVS-6: I can create tables which make my summaries clear to the reader.**
 
 -   Example 1
+
+This code is from lab 9, question 7.I used <https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3> to get my colors. *I originally labeled the title "Simulated Means By Sample Size" instead of "Simulated Mean of Means By Sample Size" and each column, "Simulated Mean of\_ " instead of "Simulated Mean of \_ Means." I now realize that this is not the simulated means but the simulated means of means. It is important that I correctly label all aspects of my table to ensure viewers correctly interpret my table and there are no misunderstandings about what the data represents.*
 
 ```{r}
 #| label: dvs-6-1
@@ -1426,12 +1468,11 @@ all_simulations |>
             locations = cells_body()
             )
 
-# This code is from lab 9, question 7. I originally labeled the title "Simulated Means By Sample Size" instead of "Simulated Mean of Means By Sample Size" and each column, "Simulated Mean of __" instead of "Simulated Mean of __ Means." I now realize that this is not the simulated means but the simulated means of means. It is important that I correctly label all aspects of my table to ensure viewers correctly interpret my table and there are no misunderstandings about what the data represents. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
-
-
 ```
 
 -   Example 2
+
+This code is from lab 9, question 2.. I used <https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3> to get my colors. *I originally used the names_prefix() function to add a prefix to the names of my columns, but these names were not the strongest names to describe the context of the columns. Instead, I used the rename() function to add stronger descriptive names for each column. Originally, I also included both the counts and proportions. I removed the counts as this was unnecessary and redundant.*
 
 ```{r}
 #| label: dvs-6-2
@@ -1479,14 +1520,14 @@ rotate_proportions <- random_babies_table |>
             locations = cells_body() 
             ) |>
   print()
- 
-# This code is from lab 9, question 2. I originally used the names_prefix() function to add a prefix to the names of my columns, but these names were not the strongest names to describe the context of the columns. Instead, I used the rename() function to add stronger descriptive names for each column. Originally, I also included both the counts and proportions. I removed the counts as this was unnecessary and redundant. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors.  
 
 ```
 
 **DVS-7: I show creativity in my tables.**
 
 -   Example 1
+
+This code is from lab 9, question 2.. I used <https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3> to get my colors. *I originally used the names_prefix() function to add a prefix to the names of my columns, but these names were not the strongest names to describe the context of the columns. Instead, I used the rename() function to add stronger descriptive names for each column. Originally, I also included both the counts and proportions. I removed the counts as this was unnecessary and redundant.*
 
 ```{r}
 #| label: dvs-7-1
@@ -1534,13 +1575,12 @@ rotate_proportions <- random_babies_table |>
             locations = cells_body() 
             ) |>
   print()
- 
-# This code is from lab 9, question 2. I originally used the names_prefix() function to add a prefix to the names of my columns, but these names were not the strongest names to describe the context of the columns. Instead, I used the rename() function to add stronger descriptive names for each column. Originally, I also included both the counts and proportions. I removed the counts as this was unnecessary and redundant. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors.   
-
 
 ```
 
 -   Example 2
+
+This code is from lab 9, question 7. I used <https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3> to get my colors. *I originally labeled the title "Simulated Means By Sample Size" instead of "Simulated Mean of Means By Sample Size" and each column, "Simulated Mean of \_" instead of "Simulated Mean of \_ Means." I now realize that this is not the simulated means but the simulated means of means. It is important that I correctly label all aspects of my table to ensure viewers correctly interpret my table and there are no misunderstandings about what the data represents.*
 
 ```{r}
 #| label: dvs-7-2
@@ -1580,8 +1620,6 @@ all_simulations |>
             locations = cells_body()
             )
 
-# This code is from lab 9, question 7. I originally labeled the title "Simulated Means By Sample Size" instead of "Simulated Mean of Means By Sample Size" and each column, "Simulated Mean of __" instead of "Simulated Mean of __ Means." I now realize that this is not the simulated means but the simulated means of means. It is important that I correctly label all aspects of my table to ensure viewers correctly interpret my table and there are no misunderstandings about what the data represents. I used https://colorbrewer2.org/#type=sequential&scheme=Oranges&n=3 to get my colors. 
-
 ```
 
 ## Program Efficiency
@@ -1589,6 +1627,8 @@ all_simulations |>
 **PE-1: I can write concise code which does not repeat itself.**
 
 -   using a single function call with multiple inputs (rather than multiple function calls)
+
+This code is from lab 5, section 1: Crime Scene Report.
 
 ```{r}
 #| label: pe-1-one-call
@@ -1600,12 +1640,11 @@ crime_scene_report |>
          city == "SQL City"
          )
 
-# This code is from lab 5, section 1: Crime Scene Report.
-
-
 ```
 
 -   `across()`
+
+This code is from lab 7, question 1.
 
 ```{r}
 #| label: pe-1-across
@@ -1623,11 +1662,11 @@ missing_values <- fish |>
     ) |>
   print()
 
-# This code is from lab 7, question 1.
-
 ```
 
 -   `map()` functions
+
+This code is from lab 8, question 4.
 
 ```{r}
 #| label: pe-1-map-1
@@ -1643,13 +1682,13 @@ tibble(Variable = names(fish),
   knitr::kable() |>
   kableExtra::kable_styling(font_size = 15)
 
-# This code is from lab 8, question 4.
-
 ```
 
 **PE-2: I can write functions to reduce repetition in my code.**
 
 -   Function that operates on vectors
+
+This code is from lab 7, question 4
 
 ```{r}
 #| label: pe-2-1
@@ -1663,12 +1702,11 @@ rescale_01 <- function(x) {
   (x - range_1[1]) / (range_1[2] - range_1[1])
 }
 
-# This code is from lab 7, question 4
-
-
 ```
 
 -   Function that operates on data frames
+
+This code is from lab 8, question 1. *Originally, I used the tibble() function outside of my function. While this worked, this could lead to redundancy, as I would have to rewrite the tibble() function every time I wanted to create a tibble with the map_chr_func() function. By implementing the tibble() function directly in my map_chr_func() function, I improved the efficiency and readability of my code. This change helps prevent errors with manually rewriting the same code and creates a reusable function.*
 
 ```{r}
 #| label: pe-2-2
@@ -1686,43 +1724,14 @@ map_chr_func <- function(df){
                   )
   
  }
- 
-evals_1 <- map_chr_func(evals) |> 
-  rename("Course ID" = "course_id", 
-         "Teacher ID" = "teacher_id", 
-         "Question Number" = "question_no",
-         "Number of Participants" = "no_participants", 
-         "Response Rate" = "resp_share", 
-          "SET Score Average" = "SET_score_avg",
-         "Student Grade Average" = "stud_grade_avg", 
-         "Student Grade Standard Deviation" = "stud_grade_std",
-         "Student Grade Variance Coefficient" = "stud_grade_var_coef", 
-         "Percent Failed" = "percent_failed", 
-         "Current Semester Student Grade Average" = "stud_grade_avg_cur", 
-         "Current Semester Student Grade Standard Deviation" = "stud_grade_std_cur", 
-         "Current Semester Student Grade Variance Coefficient" = "stud_grade_var_coef_cur", 
-         "Current Semester Perecent Failed" = "percent_failed_cur",
-         "Class Duration" = "class_duration", 
-         "Weekday" = "weekday", 
-         "Time of Day" = "time_of_day", 
-         "SET Score of Teacher in Previous Semester" = "SET_score_1sem", 
-         "Maximum Score" = "maximum_score", 
-         "Academic Degree" = "academic_degree", 
-         "Seniority" = "seniority", 
-         "Gender" = "sex"
-         ) |>
-  knitr::kable() |>
-  kableExtra::kable_styling(font_size = 15) |>
-  print()
-
-
-# This code is from lab 8, question 1. Originally, I used the tibble() function outside of my function. While this worked, this could lead to redundancy, as I would have to rewrite the tibble() function everytime I wanted to create a tibble with the map_chr_func() function. By implemneting the tibble() function directly in my map_chr_func() function, I improved the efficiency and readaiblity of my code. This change can help prevent errors with manually rewriting the same code and creates a reusable function.  
 
 ```
 
 **PE-3: I can use iteration to reduce repetition in my code.**
 
 -   `across()`
+
+This code is from lab 7, question 8. *I added a function stop to check if the input was a data frame. If the input is not a data frame, the function stops and returns an error message. I also added a function stop that checks if the columns are in the given data frame and if they are not, the function stops and returns an error message. This is important because it ensures that the input is the correct type, preventing errors.*
 
 ```{r}
 #| label: pe-3-across
@@ -1740,12 +1749,11 @@ rescale_column <- function(Df, cols) {
   return(Df)
 }
 
-# This code is from lab 7, question 8. 
-
-
 ```
 
 -   `map()` function with **one** input (e.g., `map()`, `map_chr()`, `map_dbl()`, etc.)
+
+This code is from lab 8, question 1. *Originally, I used the tibble() function outside of my function. While this worked, this could lead to redundancy, as I would have to rewrite the tibble() function every time I wanted to create a tibble with the map_chr_func() function. By implementing the tibble() function directly in my map_chr_func() function, I improved the efficiency and readability of my code. This change helps prevent errors with manually rewriting the same code and creates a reusable function.*
 
 ```{r}
 #| label: pe-3-map-1
@@ -1763,41 +1771,12 @@ map_chr_func <- function(df){
                   )
   
  }
- 
-evals_1 <- map_chr_func(evals) |> 
-  rename("Course ID" = "course_id", 
-         "Teacher ID" = "teacher_id", 
-         "Question Number" = "question_no",
-         "Number of Participants" = "no_participants", 
-         "Response Rate" = "resp_share", 
-          "SET Score Average" = "SET_score_avg",
-         "Student Grade Average" = "stud_grade_avg", 
-         "Student Grade Standard Deviation" = "stud_grade_std",
-         "Student Grade Variance Coefficient" = "stud_grade_var_coef", 
-         "Percent Failed" = "percent_failed", 
-         "Current Semester Student Grade Average" = "stud_grade_avg_cur", 
-         "Current Semester Student Grade Standard Deviation" = "stud_grade_std_cur", 
-         "Current Semester Student Grade Variance Coefficient" = "stud_grade_var_coef_cur", 
-         "Current Semester Perecent Failed" = "percent_failed_cur",
-         "Class Duration" = "class_duration", 
-         "Weekday" = "weekday", 
-         "Time of Day" = "time_of_day", 
-         "SET Score of Teacher in Previous Semester" = "SET_score_1sem", 
-         "Maximum Score" = "maximum_score", 
-         "Academic Degree" = "academic_degree", 
-         "Seniority" = "seniority", 
-         "Gender" = "sex"
-         ) |>
-  knitr::kable() |>
-  kableExtra::kable_styling(font_size = 15) |>
-  print()
-
-
-# This code is from lab 8, question 1. Originally, I used the tibble() function outside of my function. While this worked, this could lead to redundancy, as I would have to rewrite the tibble() function everytime I wanted to create a tibble with the map_chr_func() function. By implemneting the tibble() function directly in my map_chr_func() function, I improved the efficiency and readaiblity of my code. This change can help prevent errors with manually rewriting the same code and creates a reusable function.  
 
 ```
 
 -   `map()` function with **more than one** input (e.g., `map_2()` or `pmap()`)
+
+This code is from lab 9, questions 4-6.
 
 ```{r}
 #| label: pe-3-map-2
@@ -1823,13 +1802,13 @@ all_simulations <- grid |>
          ) |> 
   unnest(simulated_means) 
 
-# This code is from lab 9, questions 4-6.
-
 ```
 
 **PE-4: I can use modern tools when carrying out my analysis.**
 
 -   I can use functions which are not superseded or deprecated
+
+This code is from lab 7, question 1.
 
 ```{r}
 #| label: pe-4-1
@@ -1847,11 +1826,11 @@ missing_values <- fish |>
     ) |>
   print()
 
-# This code is from lab 7, question 1
-
 ```
 
 -   I can connect a data wrangling pipeline into a `ggplot()`
+
+This code is from lab 4, question 6.
 
 ```{r}
 #| label: pe-4-2
@@ -1924,9 +1903,6 @@ ca_childcare |>
         title = element_text(size = 8)
         )
 
-# This code is from lab 4, question 6
-
-
 ```
 
 ## Data Simulation & Statisical Models
@@ -1934,6 +1910,8 @@ ca_childcare |>
 **DSSM-1: I can simulate data from a *variety* of probability models.**
 
 -   Example 1
+
+This code is from lab 9, question 1. *Originally, I used \$ operators to get correct_baby_count, but realized I could use the summarize() function here instead. By using the summarize() function instead of the \$ operator, my code more closely follows the tidyverse guidelines. This esures that my code is readable, clear, and efficient.*
 
 ```{r}
 #| label: dsm-1-1 
@@ -1955,12 +1933,11 @@ results <- map_int(.x = 1:10000,
 
 head(results)
 
-# This code is from lab 9, question 1. Originally, I used $ operators to get correct_baby_count, but realized I could use the summarize() function here instead. By using the summarize() function instead of the $ operator, my code more closely follows the tidyverse guidelines. This esures that my code is readable, clear, and efficient.
-
-
 ```
 
 -   Example 2
+
+This code is from lab 9, questions 4-6.
 
 ```{r}
 #| label: dsm-1-2
@@ -1986,13 +1963,14 @@ all_simulations <- grid |>
          ) |> 
   unnest(simulated_means) 
 
-# This code is from lab 9, questions 4-6. 
 
 ```
 
 **DSSM-2: I can conduct common statistical analyses in R.**
 
 -   Example 1
+
+This code is from challenge 3, questions 1 and 3.
 
 ```{r}
 #| label: dsm-2-1
@@ -2022,12 +2000,12 @@ chi_square_test <- chisq.test(teacher_evals_compare$SET_level,
 
 print(chi_square_test)
 
-# This code is from challenge 3, questions 1 and 3
-
 
 ```
 
 -   Example 2
+
+This code is from lab 4, question 8.
 
 ```{r}
 #| label: dsm-2-2
@@ -2038,8 +2016,6 @@ species_mod <- aov(formula = weight ~species_id,
 
 summary(species_mod)
 
-# This code is from lab 4, question 8
-
 ```
 
 ## Revising My Thinking
@@ -2048,24 +2024,31 @@ summary(species_mod)
 
 <!-- For the revisions included in your Portfolio, to help me understand the nature of your revisions, please denote somehow the feedback I provided you (e.g., boldface, italics, colored text) before your revisions. -->
 
-After receiving feedback on each lab, I submitted revisions with reflections for all labs where revisions were accepted, dedicating significant time to understanding my mistakes, correcting them, and enhancing the efficiency of my code. As someone without much coding experience prior to this course, learning how to use R has been a constructively challenging experience. Working through lab assignments has provided me with the opportunity to struggle through material, enhancing my critical thinking and my tangible coding skills. Then, through feedback, I have learned where I was not fully grasping a concept or where I could make my code more efficient. With this feedback, I was able to explore the content more deeply and consider other approaches to coding specific problems. 
+After receiving feedback on labs, I submitted revisions with reflections for all labs where revisions were accepted, dedicating significant time to understanding my mistakes, correcting them, and enhancing the efficiency of my code. As someone without much coding experience prior to this course, learning how to use R has been a constructively challenging experience. Working through lab assignments has provided me with the opportunity to struggle through material, enhancing my critical thinking and my tangible coding skills. Then, through feedback, I have learned where I was not fully grasping a concept or where I could make my code more efficient. With this feedback, I was able to explore the content more deeply and consider other approaches to coding specific problems. 
 
-For each problem I received a growing on or problems where I received a success but received feedback, when I completed my revision and reflection, I truly sat with the material, considering the importance of the changes I was implementing.  I made sure to consider and explain why it was important to fix or include what I added in my revision. For example, in lab 3, I initially saved unnecessary objects or created new data frames and did not display the results of my code in the quarto document. I did not originally see this as an issue when working on the lab assignment. However, once I received feedback on this aspect of my lab, I became aware of the issue in my lab. I realized I needed to consider when it is necessary and beneficial to save objects and create data frames and when it is unnecessary, a concept I had not considered before. I also realized that my reader was unable to see the results of my code often. I then considered and reflected on the fact that I was not providing the necessary information to the reader of my quarto document for them to be able to understand and follow my lab. Through reflections like these, I gained insight into efficient coding practices and ensuring my coding serves its intended and appropriate purpose.
+For each problem I received a growing on or problems where I received a success but still received feedback, when I completed my revision and reflection, I truly sat with the material, considering the importance of the changes I was implementing. I made sure to consider and explain why it was important to fix or include what I added in my revision. For example, in lab 3, I initially saved unnecessary objects or created new data frames and did not display the results of my code in the quarto document. I did not originally see this as an issue when working on the lab assignment. However, once I received feedback on this aspect of my lab, I became aware of the issue in my lab. I realized I needed to consider when it is necessary and beneficial to save objects and create data frames and when it is unnecessary, a concept I had not considered before. I also realized that my reader was unable to see the results of my code often. I then considered and reflected on the fact that I was not providing the necessary information to the reader of my quarto document for them to be able to understand and follow my lab. Another pivotal revision was for lab 4, question 6, where I was asked to recreate Dr. Theobold's plot showing the change over time of fill time median price for center-based childcare for infants, toddlers, and preschoolers. Upon my first submission, I received a growing with ample feedback. I spent considerable time learning how to properly use the forcats, RColorBrewer, and ggplot2 packages to figure out how to incorporate various aspects to my visualization including correctly releveling my variables, incorporating colors, and adding elements to my visualizations theme. I have included my reflection below for this revision as I believe this is a strong reflection that accurately exemplifies my commitment to revising my thinking throughout this quarter. Overall, through revisions and reflections such as these, I gained insight into efficient coding practices and ensuring my coding serves its intended and appropriate purpose.
+
+Reflection for Lab 4, Question 6:
+
+Originally, I attempted to recreate this plot, but missed a few of the key aspects that make this visualization clear and effective. Firstly, I incorporated the rename() function to rename the variables, mc_infant, mc_toddler, and mc_preschool to Infant, Toddler, and Preschool so that they would match Dr. Theobold’s. This ensures that the labels in the facts represent the content of the visualization rather than just the original variable names in the data frame, which don’t provide meaningful context on their own. Secondly, I used the mutate() and fct_relevel() functions to change the order of the levels so that they are in order of age, with Infant on the left, Toddler in the middle, and Preschool on the right. This is beneficial because it ensures the plot follows a logical progression, from youngest to oldest. Then, I used the theme() function to resize aspects of my visualization. This included using the aspect.ratio() function to make the facets proportional. This helped to spread out my squished text on the axes, making the values on my axes much more readable and clear. I also used the theme() function to resize the title of my visualization and the text in my legend. All of these changes to the text made my visualization more readable. I also used the scale_y_continuous() function to add values to my y-axis because there were only values 200, 300, and 400 and I felt it was beneficial to include 100 and 500 to provide a broader range of values, ensuring the axis is visually representative. I also made a custom color palette using the colorRampPalette() and the scale_color_manual() function to reorder the colors in the legend so they appear in the same order as the lines in the plot. This adds to making my visualization more easy to interpret. Lastly, I incorporated theme_bw() to apply a black and white theme to my plot, matching Dr. Theobold’s theme. I also used the scale_color_brewer() function to add the Accent palette to match Dr. Theobold’s colors on their visualization. These two changes make the visualization visually appealing and professional looking. Overall, these changes were important to incorporate because they enhanced the clarity, professional appearance, and readability of the visualization.
 
 ## Extending My Thinking
 
 <!-- How did you extended your thinking throughout the course? How did you extend your thinking on the code examples you have provided in your portfolio? -->
 
-Throughout this course so far, I have challenged myself to work through material I did not understand initially. I attempted challenge problems, not always getting them perfectly right. When I received feedback, I made sure to revise these as it was important to me to push myself to deepen my understanding and enhance my coding skills through these more complex problems. I personally also felt challenged by many problems within the lab assignments and spent considerable time thinking out problems and potential ways of coding to solve these problems. 
+Throughout this course so far, I have challenged myself by attempting challenge problems, not always getting them perfectly right. When I received feedback, I made sure to revise these as it was important to me to push myself to deepen my understanding and enhance my coding skills through these more complex tasks. I personally also felt challenged by many problems within the lab assignments and spent considerable time thinking out problems and potential ways of coding to solve these problems. 
 
-In my portfolio, I have included code from Challenge 3. This is an example of a problem I attempted and succeeded at, yet found very difficult. In this challenge we were provided with a plot and instructed to write code to recreate this plot. This required me to work backwards and consider all of the components needed to create the plot. I found this problem challenging and worked on it for a while. I struggled with this problem initially, but this struggle was part of the learning experience, ultimately deepening my understanding of making visualizations in R. 
+In my portfolio, I have included code from Challenge 2,3, and 9, exemplifying the ways in which I pushed myself to learn new skills and tools. In challenge 2, I created a density ridge plot and added custom colors for each ridge. Learning how to use the scales_fill_manual() function was a beneficial tool as I was able to use this in future assignments to make my visualizations aesthetically appealing and helpful for the viewer in interpreting information. In challenge 3, I was provided with a plot and instructed to write code to recreate this plot. This is a great example of a problem I attempted and succeeded at, yet found difficult and had to work through. This task required me to work backwards and consider all of the components needed to create the plot. I found this problem challenging initially, but this struggle was part of the learning experience, ultimately deepening my understanding of making visualizations in R. Lastly, I included code from Challenge 9, where I incorporated the scales_fill_manual() function to many of my plots and tables in Lab 8 and 9. Additionally I learned how to use the knitr and gt package to format my plots and tables nicely and incorporate alterations including changing font and font size, adding titles and subtitles, and adding cell borders. Overall, these challenges pushed me to learn new skills that I was able to then incorporate in future labs to make my code and visualizations more complex and advanced.
 
 ## Peer Support & Collaboration
 
 <!-- Include an image or a description of feedback you gave that you are proud of (either in a peer review or in Discord). -->
 
-*\
-*Here is an example of peer feedback I provided to a classmate for their Lab 2:
+Each week, I completed my peer review to provide feedback to my peers on the tidiness and efficiency of their code. I always made sure to acknowledge where my peers had strong, tidy and efficient code as well as providing constructive feedback in a respectful manner, suggesting areas where they could enhance the tidiness and efficiency of their code.
+
+Each week, I completed peer reviews, offering feedback on the tidiness and efficiency of my peers' code. I made sure to acknowledge their strengths and provided constructive suggestions in a respectful manner, focusing on ways they could improve the organization and performance of their code.
+
+Here is an example of peer feedback I provided to a classmate for their Lab 2:
 
 Question 1 - Correctly loaded the R packages needed for your analysis\
 Question 2 - Correctly used the here() package to load in the data\
@@ -2080,6 +2063,32 @@ Question 10 - Your code looks great!\
 Question 11 - Your code looks great!\
 Question 12 - Your code looks great!
 
+Here is an example of peer feedback I provided to a classmate for their lab 5:
+
+Tidy code  - Your code is very tidy overall! You make sure to include whitespaces when necessary and use new lines after majority of commas and after using the pipe operator. There were a few times in your code chunks where you could make a new line after a comma. For example, for this line of code in step 3:
+
+filter(ymd(check_in_date) == ymd(20180109),
+gender == "male",
+membership_status == "gold",
+str_detect(membership_id, "\^48Z"),
+str_detect(plate_number, "H42W"))\
+
+You could change it so that there are new lines after each comma like this:
+filter(ymd(check_in_date) == ymd(20180109),
+gender == "male",
+membership_status == "gold",
+str_detect(membership_id,
+		"\^48Z"
+			),
+str_detect(plate_number,
+	"H42W"
+			)
+	)\
+
+Also, when doing this, you can line up your opening and closing parentheses. This makes it easier for the reader of your code to see what parentheses are connected and what they are enclosing. Besides these little aspects to your code, it looks very tidy and easy to read! \
+
+Efficient Code - You do a great job at using functions for multiple tasks so that you don’t have to repeat yourself in your code. For example, you use the filter() function to filter a data set in multiple ways. You do this well in step 2, 3, and 5. Additionally, you use the left_join at some points in your code, but could use inner_join instead to increase efficiency. Although it is producing the correct results, using inner_join would only keep the rows where there is a match in both datasets so that you don’t end up with rows with multiple NA’s, making the results more precise to what you want since you are trying to narrow down data sets. This also makes your code more efficient.
+
 <!-- Include a description of how you grew as a collaborator through the weekly pair programming activities.   -->
 
-In weekly pair programming activities, I felt I was always able to be patient and respectful and ensure my partner's input was valued and considered. I made it a priority to listen as the coder to create a collaborative environment where I valued my partner’s perspective and also learned from their ideas and coding approach. Although I had some difficulties communicating when I felt my voice wasn’t being heard and wish I did to ensure my ideas were being considered, I feel I have become more capable and confident redirecting our focus to maintain our respective roles and enhance our collaboration.
+During weekly pair programming activities, I feel I was always able to be patient and respectful, ensuring my partner's input was valued. I made it a priority to listen as the coder to create a collaborative environment where I respected my partner’s perspective and learned from their ideas and coding approach. Sometimes my partner would share an approach to solving a task that was not how I initially thought to approach the task. I was open minded to their ideas during these moments and appreciated the opportunity to learn an alternative way to solve a problem. Although I had some difficulties communicating when I felt my voice wasn’t being heard during one week's programming activity, I became more confident in redirecting focus the following week to maintain our respective roles and improve our collaboration.
