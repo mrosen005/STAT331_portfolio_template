@@ -1731,23 +1731,23 @@ map_chr_func <- function(df){
 
 -   `across()`
 
-This code is from lab 7, question 8. *I added a function stop to check if the input was a data frame. If the input is not a data frame, the function stops and returns an error message. I also added a function stop that checks if the columns are in the given data frame and if they are not, the function stops and returns an error message. This is important because it ensures that the input is the correct type, preventing errors.*
+This code is from lab 7, question 1.
 
 ```{r}
 #| label: pe-3-across
 
-rescale_column <- function(Df, cols) {
-    if (!is.data.frame(Df)) {stop("The input 'Df' is not a dataframe.")
-    }
-    if (!all(cols %in% colnames(Df))) {stop("One or more of the columns in 'cols' are not in the given dataframe")
-      }
-   Df <- Df |> 
-    mutate(across({{cols}},
-                  rescale_01
+missing_values <- fish |> 
+  summarise(across(.cols = trip:species, 
+           .fns = ~ sum(is.na(.)),
+           .names = "{.col}_na"
                   )
-           )
-  return(Df)
-}
+           ,
+    na_observations = sum(if_any(everything(),
+                                 is.na
+                                 )
+                          )
+    ) |>
+  print()
 
 ```
 
@@ -2024,11 +2024,11 @@ summary(species_mod)
 
 <!-- For the revisions included in your Portfolio, to help me understand the nature of your revisions, please denote somehow the feedback I provided you (e.g., boldface, italics, colored text) before your revisions. -->
 
-After receiving feedback on labs, I submitted revisions with reflections for all labs where revisions were accepted, dedicating significant time to understanding my mistakes, correcting them, and enhancing the efficiency of my code. As someone without much coding experience prior to this course, learning how to use R has been a constructively challenging experience. Working through lab assignments has provided me with the opportunity to struggle through material, enhancing my critical thinking and my tangible coding skills. Then, through feedback, I have learned where I was not fully grasping a concept or where I could make my code more efficient. With this feedback, I was able to explore the content more deeply and consider other approaches to coding specific problems. 
+After receiving feedback on labs, I submitted revisions with reflections for all labs where revisions were accepted, dedicating significant time to understanding my mistakes, correcting them, and enhancing the efficiency of my code. As someone without much coding experience prior to this course, learning how to use R has been a constructively challenging experience. Working through lab assignments has provided me with the opportunity to struggle through material, enhancing my critical thinking and tangible coding skills. Through feedback, I have learned where I was not fully grasping a concept or where I could make my code more efficient. With this feedback, I was able to explore the content more deeply and consider new and different approaches to coding problems. 
 
-For each problem I received a growing on or problems where I received a success but still received feedback, when I completed my revision and reflection, I truly sat with the material, considering the importance of the changes I was implementing. I made sure to consider and explain why it was important to fix or include what I added in my revision. For example, in lab 3, I initially saved unnecessary objects or created new data frames and did not display the results of my code in the quarto document. I did not originally see this as an issue when working on the lab assignment. However, once I received feedback on this aspect of my lab, I became aware of the issue in my lab. I realized I needed to consider when it is necessary and beneficial to save objects and create data frames and when it is unnecessary, a concept I had not considered before. I also realized that my reader was unable to see the results of my code often. I then considered and reflected on the fact that I was not providing the necessary information to the reader of my quarto document for them to be able to understand and follow my lab. Another pivotal revision was for lab 4, question 6, where I was asked to recreate Dr. Theobold's plot showing the change over time of fill time median price for center-based childcare for infants, toddlers, and preschoolers. Upon my first submission, I received a growing with ample feedback. I spent considerable time learning how to properly use the forcats, RColorBrewer, and ggplot2 packages to figure out how to incorporate various aspects to my visualization including correctly releveling my variables, incorporating colors, and adding elements to my visualizations theme. I have included my reflection below for this revision as I believe this is a strong reflection that accurately exemplifies my commitment to revising my thinking throughout this quarter. Overall, through revisions and reflections such as these, I gained insight into efficient coding practices and ensuring my coding serves its intended and appropriate purpose.
+For each problem I received a growing on or problems where I received a success but still received feedback, when I completed my revision and reflection, I truly sat with the material, considering the importance of the changes I was implementing. I made sure to consider and explain why it was important to fix or include what I added in my revision. For example, in lab 3, I initially saved unnecessary objects or created new data frames and did not display the results of my code in the quarto document. I did not originally see this as an issue when working on the lab assignment. However, once I received feedback on this aspect of my lab, I became aware of the issue in my lab. I realized I needed to consider when it is necessary and beneficial to save objects and create data frames and when it is unnecessary, a concept I had not considered before. I also realized that my reader was unable to see the results of my code often. I then considered and reflected on the fact that I was not providing the necessary information to the reader of my quarto document for them to be able to understand and follow my lab, and therefore my reader was not able to interpret and understand information about the data. Another pivotal revision was for lab 4, question 6, where I was asked to recreate Dr. Theobold's plot showing the change over time of fill time median price for center-based childcare for infants, toddlers, and preschoolers. Upon my first submission, I received a growing with ample feedback. I spent considerable time learning how to properly use the forcats, RColorBrewer, and ggplot2 packages to figure out how to incorporate various aspects to my visualization including correctly releveling my variables, incorporating colors, and adding elements to my visualizations theme. I have included my reflection below for this revision as I believe this is a strong reflection that accurately exemplifies my commitment to revising my thinking throughout this quarter. Overall, through revisions and reflections such as these, I gained insight into efficient coding practices and ensuring my coding serves its intended and appropriate purpose.
 
-Reflection for Lab 4, Question 6:
+**Reflection for Lab 4, Question 6:**
 
 Originally, I attempted to recreate this plot, but missed a few of the key aspects that make this visualization clear and effective. Firstly, I incorporated the rename() function to rename the variables, mc_infant, mc_toddler, and mc_preschool to Infant, Toddler, and Preschool so that they would match Dr. Theobold’s. This ensures that the labels in the facts represent the content of the visualization rather than just the original variable names in the data frame, which don’t provide meaningful context on their own. Secondly, I used the mutate() and fct_relevel() functions to change the order of the levels so that they are in order of age, with Infant on the left, Toddler in the middle, and Preschool on the right. This is beneficial because it ensures the plot follows a logical progression, from youngest to oldest. Then, I used the theme() function to resize aspects of my visualization. This included using the aspect.ratio() function to make the facets proportional. This helped to spread out my squished text on the axes, making the values on my axes much more readable and clear. I also used the theme() function to resize the title of my visualization and the text in my legend. All of these changes to the text made my visualization more readable. I also used the scale_y_continuous() function to add values to my y-axis because there were only values 200, 300, and 400 and I felt it was beneficial to include 100 and 500 to provide a broader range of values, ensuring the axis is visually representative. I also made a custom color palette using the colorRampPalette() and the scale_color_manual() function to reorder the colors in the legend so they appear in the same order as the lines in the plot. This adds to making my visualization more easy to interpret. Lastly, I incorporated theme_bw() to apply a black and white theme to my plot, matching Dr. Theobold’s theme. I also used the scale_color_brewer() function to add the Accent palette to match Dr. Theobold’s colors on their visualization. These two changes make the visualization visually appealing and professional looking. Overall, these changes were important to incorporate because they enhanced the clarity, professional appearance, and readability of the visualization.
 
@@ -2036,9 +2036,9 @@ Originally, I attempted to recreate this plot, but missed a few of the key aspec
 
 <!-- How did you extended your thinking throughout the course? How did you extend your thinking on the code examples you have provided in your portfolio? -->
 
-Throughout this course so far, I have challenged myself by attempting challenge problems, not always getting them perfectly right. When I received feedback, I made sure to revise these as it was important to me to push myself to deepen my understanding and enhance my coding skills through these more complex tasks. I personally also felt challenged by many problems within the lab assignments and spent considerable time thinking out problems and potential ways of coding to solve these problems. 
+Throughout this course, I have challenged myself by attempting challenge problems, sometimes struggling through them and not always getting them perfectly right. When I received feedback, I made sure to revise these as it was important to me to push myself to deepen my understanding and enhance my coding skills through these more complex tasks. I personally also felt challenged by many problems within the lab assignments and spent considerable time thinking out problems and multiple ways of coding to solve these problems. 
 
-In my portfolio, I have included code from Challenge 2,3, and 9, exemplifying the ways in which I pushed myself to learn new skills and tools. In challenge 2, I created a density ridge plot and added custom colors for each ridge. Learning how to use the scales_fill_manual() function was a beneficial tool as I was able to use this in future assignments to make my visualizations aesthetically appealing and helpful for the viewer in interpreting information. In challenge 3, I was provided with a plot and instructed to write code to recreate this plot. This is a great example of a problem I attempted and succeeded at, yet found difficult and had to work through. This task required me to work backwards and consider all of the components needed to create the plot. I found this problem challenging initially, but this struggle was part of the learning experience, ultimately deepening my understanding of making visualizations in R. Lastly, I included code from Challenge 9, where I incorporated the scales_fill_manual() function to many of my plots and tables in Lab 8 and 9. Additionally I learned how to use the knitr and gt package to format my plots and tables nicely and incorporate alterations including changing font and font size, adding titles and subtitles, and adding cell borders. Overall, these challenges pushed me to learn new skills that I was able to then incorporate in future labs to make my code and visualizations more complex and advanced.
+In my portfolio, I have included code from Challenge 2,3, and 9, exemplifying the ways in which I pushed myself to learn new skills and tools. In challenge 2, I created a density ridge plot and added custom colors for each ridge. Learning how to use the scales_fill_manual() function was a beneficial tool as I was able to use this in future assignments to make my visualizations aesthetically appealing and helpful for the viewer's interpretation of information. In challenge 3, I was provided with a plot and instructed to write code to recreate this plot. This is a great example of a problem I attempted and succeeded at, yet found difficult and had to work through. This task required me to work backwards and consider all of the components needed to create the plot. I found this problem challenging initially, but this struggle was part of the learning experience, ultimately deepening my understanding of making visualizations in R. Lastly, I included code from Challenge 9, where I incorporated the scales_fill_manual() function to many of my plots and tables in Lab 8 and 9. In this challenge, I also learned how to use the knitr and gt package to format my plots and tables nicely and incorporate alterations including changing font and font size, adding titles and subtitles, and adding cell borders. Overall, these challenges pushed me to learn new skills that I was able to then incorporate in future labs to make my code and visualizations more complex and advanced.
 
 ## Peer Support & Collaboration
 
@@ -2046,9 +2046,7 @@ In my portfolio, I have included code from Challenge 2,3, and 9, exemplifying th
 
 Each week, I completed my peer review to provide feedback to my peers on the tidiness and efficiency of their code. I always made sure to acknowledge where my peers had strong, tidy and efficient code as well as providing constructive feedback in a respectful manner, suggesting areas where they could enhance the tidiness and efficiency of their code.
 
-Each week, I completed peer reviews, offering feedback on the tidiness and efficiency of my peers' code. I made sure to acknowledge their strengths and provided constructive suggestions in a respectful manner, focusing on ways they could improve the organization and performance of their code.
-
-Here is an example of peer feedback I provided to a classmate for their Lab 2:
+**Here is an example of peer feedback I provided to a classmate for their Lab 2:**
 
 Question 1 - Correctly loaded the R packages needed for your analysis\
 Question 2 - Correctly used the here() package to load in the data\
@@ -2063,7 +2061,7 @@ Question 10 - Your code looks great!\
 Question 11 - Your code looks great!\
 Question 12 - Your code looks great!
 
-Here is an example of peer feedback I provided to a classmate for their lab 5:
+**Here is an example of peer feedback I provided to a classmate for their lab 5:**
 
 Tidy code  - Your code is very tidy overall! You make sure to include whitespaces when necessary and use new lines after majority of commas and after using the pipe operator. There were a few times in your code chunks where you could make a new line after a comma. For example, for this line of code in step 3:
 
@@ -2091,4 +2089,4 @@ Efficient Code - You do a great job at using functions for multiple tasks so tha
 
 <!-- Include a description of how you grew as a collaborator through the weekly pair programming activities.   -->
 
-During weekly pair programming activities, I feel I was always able to be patient and respectful, ensuring my partner's input was valued. I made it a priority to listen as the coder to create a collaborative environment where I respected my partner’s perspective and learned from their ideas and coding approach. Sometimes my partner would share an approach to solving a task that was not how I initially thought to approach the task. I was open minded to their ideas during these moments and appreciated the opportunity to learn an alternative way to solve a problem. Although I had some difficulties communicating when I felt my voice wasn’t being heard during one week's programming activity, I became more confident in redirecting focus the following week to maintain our respective roles and improve our collaboration.
+During weekly pair programming activities, I feel I was always able to be patient and respectful, ensuring my partner's input was valued. I made it a priority to listen as the coder to create a collaborative environment where I respected my partner’s perspective and learned from their ideas and coding approaches. Sometimes my partner would share an approach to solving a task that was not how I initially thought to approach the task. I was open minded to their ideas during these moments and appreciated the opportunity to learn an alternative way to solve a problem. Although I had some difficulties communicating when I felt my voice wasn’t being heard during one week's programming activity, I became more confident in redirecting focus the following week to maintain our respective roles and improve our collaboration.
