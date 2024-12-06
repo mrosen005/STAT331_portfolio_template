@@ -16,7 +16,7 @@ editor: visual
 
 3.  What was the easiest part of the class for you? Explain why.
 
-    The easiest part of class was working with data manipulation and wrangling tools because I had some experience using these tools from STAT 313 and found that already knowing the purpose of these tools allowed me to use them effectively and efficiently in this course.
+    The easiest part of class was working with data manipulation and wrangling tools because I had some experience using these tools from STAT 313 and found that already knowing the purpose of these functions allowed me to use them effectively and efficiently in this course.
 
 4.  What part of the class surprised or interested you the most? Explain why.
 
